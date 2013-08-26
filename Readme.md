@@ -42,7 +42,7 @@ fuction binding:
   //<a href="http://www.petrofeed.com" data-plug1>Click to go on<span class="petrofeed" data-plug2>petrofeed.com</span></a>
 ```
 
-object binding:
+object binding (more flexible and doesn't necessary need a model):
 ```js
   var domif = require('domify');
   var el = domify('<a data-model="bind:innerHTML,prop"></a>');
