@@ -21,6 +21,27 @@ describe('single node dataset binding', function(){
     assert('awesome' === el.innerText);
   });
 
+  it('should apply multiple function bindings', function(){
+    var plugin = {
+      test : function(el){
+        el.innerText = 'awesome';
+      },
+      other : function(el){
+        el.className = 'beauty';
+      }
+    };
+    var el = domify('<span data-test="something" data-other=""></span>');
+
+    var binding = new Binding(el);
+    binding.add('test', plugin.test);
+    binding.add('other', plugin.other);
+
+    binding.apply();
+
+    assert('awesome' === el.innerText);
+    assert('beauty' === el.className);
+  });
+
 });
 
 

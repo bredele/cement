@@ -25,7 +25,6 @@ Binding.prototype.apply = function() {
   for(var i = attributes.length; i--;){
     var attribute = attributes[i];
     var plugin = this.plugins[attribute.nodeName.substring(5)];
-
     if(plugin) {
       if(typeof plugin === 'function') {
         plugin.call(null, this.dom);
