@@ -1,3 +1,4 @@
+var interpolation = require('interpolation');
 
 /**
  * Expose 'data binding'
@@ -22,18 +23,28 @@ Binding.prototype.apply = function() {
   //   var node = el.childNodes[i];
   // }
   
+  //attributes
   var attributes = this.dom.attributes;
   for(var i = attributes.length; i--;){
+    //attribute is nodeType 2
     var attribute = attributes[i];
     var plugin = this.plugins[attribute.nodeName.substring(5)];
+
     if(plugin) {
       if(typeof plugin === 'function') {
         plugin.call(this.model, this.dom);
       } else {
         //later
       }
+    } else {
+      var content = attribute.textContent;
+      //TODO: change interpolation component 
+      if(content.indexOf('{') > -1){
+        attribute.textContent = interpolation(content, this.model);
+      }
     }
-
-
   }
+
+  //innerText
+  this.dom.innerText = interpolation(this.dom.innerText, this.model);
 };

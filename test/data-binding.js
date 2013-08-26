@@ -1,4 +1,3 @@
-var interpolation = require('dom-interpolation');
 var Binding = require('data-binding');
 var domify = require('domify');
 var assert = require('assert');
@@ -58,14 +57,17 @@ describe('single node dataset binding', function(){
     });
 
     it('should binding and interpolation', function(){
-      var el = domify('<a href="{link}" data-test="something"></a>');
+      var el = domify('<a href="{link}" data-other>{title}</a>');
       var binding = new Binding(el, {
-        link : 'http://www.petrofeed.com'
+        link : 'http://www.petrofeed.com',
+        title : 'PetroFeed'
       });
-      binding.add('test', plugin.test);
+      binding.add('other', plugin.other);
+      binding.apply();
 
-      assert('awesome' === el.innerText);
+      assert('beauty' === el.className);
       assert('http://www.petrofeed.com' === el.getAttribute('href'));
+      assert('PetroFeed' === el.innerText);      
     });
 
   });
