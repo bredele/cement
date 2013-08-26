@@ -6,8 +6,9 @@
 module.exports = Binding;
 
 
-function Binding(dom){
+function Binding(dom, model){
   this.dom = dom;
+  this.model = model;
   this.plugins = {};
 }
 
@@ -27,7 +28,7 @@ Binding.prototype.apply = function() {
     var plugin = this.plugins[attribute.nodeName.substring(5)];
     if(plugin) {
       if(typeof plugin === 'function') {
-        plugin.call(null, this.dom);
+        plugin.call(this.model, this.dom);
       } else {
         //later
       }
