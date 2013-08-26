@@ -67,10 +67,44 @@ describe('single node dataset binding', function(){
 
       assert('beauty' === el.className);
       assert('http://www.petrofeed.com' === el.getAttribute('href'));
-      assert('PetroFeed' === el.innerText);      
+      assert('PetroFeed' === el.innerText);
     });
 
   });
 });
 
 
+describe('nested node dataset binding', function(){
+  it('shoud apply bindings on different dom nodes', function(){
+    var el = domify('<a data-plug1><span data-plug2>test</span></a>');
+    var binding = new Binding(el);
+    binding.add('plug1', function(node){
+      node.setAttribute('href', 'http://www.petrofeed.com');
+    });
+    binding.add('plug2', function(node){
+      node.innerText = 'PetroFeed';
+    });
+    binding.apply();
+    assert('http://www.petrofeed.com' === el.getAttribute('href'));
+    assert('PetroFeed' === el.firstChild.innerText);
+    console.log(el);
+  });
+
+  it('shoud apply bindings on different dom nodes with interpolation', function(){
+    var el = domify('<a data-plug1>{link}<span data-plug2>{label}</span></a>');
+    var binding = new Binding(el, {
+      link : 'Click to go on',
+      label : 'petrofeed.com'
+    });
+    binding.add('plug1', function(node){
+      node.setAttribute('href', 'http://www.petrofeed.com');
+    });
+    binding.add('plug2', function(node){
+      node.innerText = 'PetroFeed';
+    });
+    binding.apply();
+    assert('http://www.petrofeed.com' === el.getAttribute('href'));
+    assert('PetroFeed' === el.firstChild.innerText);
+    console.log(el);
+  });
+});

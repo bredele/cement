@@ -17,34 +17,39 @@ Binding.prototype.add = function(name, plugin) {
   this.plugins[name] = plugin;
 };
 
-Binding.prototype.apply = function() {
-  // var childNodes = this.dom.childNodes;
-  // for(var i = 0, l = childNodes.length; i < l; i++){
-  //   var node = el.childNodes[i];
-  // }
-  
-  //attributes
-  var attributes = this.dom.attributes;
-  for(var i = attributes.length; i--;){
-    //attribute is nodeType 2
-    var attribute = attributes[i];
-    var plugin = this.plugins[attribute.nodeName.substring(5)];
+Binding.prototype.single = function(node) {
+  //dom element
+  if (node.nodeType === 1) {
 
-    if(plugin) {
-      if(typeof plugin === 'function') {
-        plugin.call(this.model, this.dom);
+    var attrs = node.attributes;
+    for(var i = attrs.length; i--;){
+      var attr = attrs[i];
+      var plugin = this.plugins[attr.nodeName.substring(5)];
+      if(plugin){
+        if(typeof plugin === 'function'){
+          plugin.call(this.model, node);
+        }
       } else {
-        //later
-      }
-    } else {
-      var content = attribute.textContent;
-      //TODO: change interpolation component 
-      if(content.indexOf('{') > -1){
-        attribute.textContent = interpolation(content, this.model);
+        var content = attr.textContent;
+        if(content.indexOf('{') > -1){
+          attr.textContent = interpolation(content, this.model);
+        }
       }
     }
   }
 
-  //innerText
-  this.dom.innerText = interpolation(this.dom.innerText, this.model);
+  // text node
+  if (node.nodeType == 3) {
+    node.textContent = interpolation(node.textContent, this.model);
+  }
+};
+
+Binding.prototype.apply = function(el) {
+  var node = el || this.dom;
+  // walk nodes
+  this.single(node);
+  for (var i = 0; i < node.childNodes.length; i++) {
+    var child = node.childNodes[i];
+    this.apply(child);
+  }
 };
