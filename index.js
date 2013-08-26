@@ -7,20 +7,38 @@ var interpolation = require('interpolation');
 module.exports = Binding;
 
 
-function Binding(dom, model){
-  this.dom = dom;
+/**
+ * Intitialize a binding.
+ * @param {Object} model 
+ */
+
+function Binding(model){
   this.model = model;
   this.plugins = {};
 }
 
+
+/**
+ * Add binding by name
+ * @param {String} name  
+ * @param {Object} plugin 
+ * @api public
+ */
 Binding.prototype.add = function(name, plugin) {
   this.plugins[name] = plugin;
 };
 
-Binding.prototype.single = function(node) {
+
+
+/**
+ * Apply bindings on a single node
+ * @param  {DomElement} node 
+ * @api private
+ */
+
+Binding.prototype.applyBindings = function(node) {
   //dom element
   if (node.nodeType === 1) {
-
     var attrs = node.attributes;
     for(var i = attrs.length; i--;){
       var attr = attrs[i];
@@ -44,10 +62,17 @@ Binding.prototype.single = function(node) {
   }
 };
 
-Binding.prototype.apply = function(el) {
-  var node = el || this.dom;
-  // walk nodes
-  this.single(node);
+
+/**
+ * Apply bindings on nestes DOM element.
+ * @param  {DomElement} node 
+ * @api public
+ */
+
+Binding.prototype.apply = function(node) {
+  this.applyBindings(node);
+
+  //child nodes are elements and text
   for (var i = 0; i < node.childNodes.length; i++) {
     var child = node.childNodes[i];
     this.apply(child);
