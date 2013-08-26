@@ -79,7 +79,7 @@ describe('single node dataset binding', function(){
       var binding = new Binding();
       var Plugin = function(model){
         this.bind = function(el, attr, prop){
-          el[attr] = (attr, model.prop);
+          el[attr] = model.prop;
         };
       };
 
@@ -88,8 +88,29 @@ describe('single node dataset binding', function(){
       }));
 
       binding.apply(el);
-      console.log(el);
       assert('http://www.petrofeed.com' === el.innerHTML);
+    });
+
+    it('should apply nested bindings', function(){
+      var el = domify('<ul><li class="first" data-model="bind:innerHTML,firstname"></li>' + 
+                        '<li class="last" data-model="bind:innerHTML,lastname"></li>' +
+                        '</ul>');
+
+      var binding = new Binding();
+      var Plugin = function(model){
+        this.bind = function(el, attr, prop){
+          el[attr] = model[prop];
+        };
+      };
+
+      binding.add('model', new Plugin({
+        firstname : 'Olivier',
+        lastname : 'Wietrich'
+      }));
+
+      binding.apply(el);
+      assert('Olivier' === el.querySelector('.first').innerHTML);
+      assert('Wietrich' === el.querySelector('.last').innerHTML);      
     });
   });
 });
