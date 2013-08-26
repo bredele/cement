@@ -71,6 +71,27 @@ describe('single node dataset binding', function(){
     });
 
   });
+
+  describe('Object binding', function(){
+    it('shoud apply Object as binding', function(){
+      var el = domify('<a data-model="bind:innerHTML,prop"></a>');
+
+      var binding = new Binding();
+      var Plugin = function(model){
+        this.bind = function(el, attr, prop){
+          el[attr] = (attr, model.prop);
+        };
+      };
+
+      binding.add('model', new Plugin({
+        prop : 'http://www.petrofeed.com'
+      }));
+
+      binding.apply(el);
+      console.log(el);
+      assert('http://www.petrofeed.com' === el.innerHTML);
+    });
+  });
 });
 
 

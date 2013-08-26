@@ -24,6 +24,7 @@ function Binding(model){
  * @param {Object} plugin 
  * @api public
  */
+
 Binding.prototype.add = function(name, plugin) {
   this.plugins[name] = plugin;
 };
@@ -46,6 +47,12 @@ Binding.prototype.applyBindings = function(node) {
       if(plugin){
         if(typeof plugin === 'function'){
           plugin.call(this.model, node);
+        } else {
+          var content = attr.textContent.split(':');
+          var method = content[0];
+          var params = content[1].split(',');
+          params.splice(0,0,node);
+          plugin[method].apply(plugin, params);
         }
       } else {
         var content = attr.textContent;
