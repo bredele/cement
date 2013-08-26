@@ -34,11 +34,11 @@
     node.setAttribute('href', 'http://www.petrofeed.com');
   });
   binding.add('plug2', function(node){
-    node.innerText = 'PetroFeed';
+    node.className = 'petrofeed';
   });
   binding.apply(el);
 
-  //<a href="http://www.petrofeed.com" data-plug1>Click to go on<span data-plug2>PetroFeed</span></a>
+  //<a href="http://www.petrofeed.com" data-plug1>Click to go on<span class="petrofeed" data-plug2>petrofeed.com</span></a>
 ```
 
 ## License
