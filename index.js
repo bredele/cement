@@ -40,6 +40,7 @@ Binding.prototype.add = function(name, plugin) {
 Binding.prototype.applyBindings = function(node) {
   //dom element
   if (node.nodeType === 1) {
+    //TODO: clean this up
     var attrs = node.attributes;
     for(var i = attrs.length; i--;){
       var attr = attrs[i];
