@@ -23,6 +23,7 @@
 
 ## Example
 
+fuction binding:
 ```js
   var domify = require('domify');
   var el = domify('<a data-plug1>{link}<span data-plug2>{label}</span></a>');
@@ -39,6 +40,26 @@
   binding.apply(el);
 
   //<a href="http://www.petrofeed.com" data-plug1>Click to go on<span class="petrofeed" data-plug2>petrofeed.com</span></a>
+```
+
+object binding:
+```js
+  var domif = require('domify');
+  var el = domify('<a data-model="bind:innerHTML,prop"></a>');
+
+  var binding = new Binding();
+  var Plugin = function(model){
+    this.bind = function(el, attr, prop){
+      el[attr] = model.prop;
+    };
+  };
+
+  binding.add('model', new Plugin({
+    prop : 'http://www.petrofeed.com'
+  }));
+
+  binding.apply(el);
+  //<a data-model="bind:innerHTML,prop">http://www.petrofeed.com</a>
 ```
 
 ## License
