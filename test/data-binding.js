@@ -112,6 +112,27 @@ describe('single node dataset binding', function(){
       assert('Olivier' === el.querySelector('.first').innerHTML);
       assert('Wietrich' === el.querySelector('.last').innerHTML);      
     });
+
+    it('should apply bindings and inteprolation', function(){
+      var el = domify('<a class="{className}" data-model="bind:innerHTML,prop"></a>');
+      var model = {
+        prop : 'http://www.petrofeed.com',
+        className : 'petrofeed'
+      };
+      var binding = new Binding(model);
+
+      var Plugin = function(model){
+        this.bind = function(el, attr, prop){
+          el[attr] = model.prop;
+        };
+      };
+
+      binding.add('model', new Plugin(model));
+
+      binding.apply(el);
+      assert('http://www.petrofeed.com' === el.innerHTML);
+      assert('petrofeed' === el.className);
+    });
   });
 });
 
