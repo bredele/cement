@@ -17,18 +17,18 @@
   });
   var binding = new Binding(store);
 
-  binding.add('text', function(el, value, expr){
-    el.innerHTML = value;
+  binding.add('text', function(el, expr){
+    el.innerHTML = this.get(expr);
     this.on('change ' + expr, function(val){
       el.innerHTML = val;
     });
   });
-  
+
   binding.apply(document.body);
 
   setInterval(function(){
     store.set('number', ++index);
-  }, 100);
+  }, 10);
   </script>
 </body>
 </html>
