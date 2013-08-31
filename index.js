@@ -46,21 +46,23 @@ Binding.prototype.applyBindings = function(node) {
     for(var i = attrs.length; i--;){
       var attr = attrs[i];
       var plugin = this.plugins[attr.nodeName.substring(5)];
+      var content = attr.textContent; //doesn't work on IE
       if(plugin){
         if(typeof plugin === 'function'){
-          plugin.call(this.model, node);
+          //TODO: refactor when we'll have more functionalities
+          //in plugin
+          plugin.call(this.model, node, content);
         } else {
-          var content = attr.textContent.split(':');
-          var method = content[0];
-          var params = content[1].split(',');
+          var expr = content.split(':');
+          var method = expr[0];
+          var params = expr[1].split(',');
           params.splice(0,0,node);
           plugin[method].apply(plugin, params);
         }
       } else {
-        var content = attr.textContent;
         if(content.indexOf('{') > -1){
           //a node attribute has only one child
-          new Interpolation(attr.firstChild, this.model); 
+          new Interpolation(attr.firstChild, this.model);
         }
       }
     }

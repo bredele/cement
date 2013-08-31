@@ -5,30 +5,30 @@
   <title>Simple Live binding</title>
 </head>
 <body>
-  <h3 class="title">There is <span>{number}</span> connected users.</h3>
-  <p>
-    And there is {group} of 2 users.
-  </p>
+  <h3 class="title">There is <span data-text="number"></span> connected users.</h3>
+
   <script src="../build/build.js"></script>
   <script>
   var Binding = require('data-binding');
   var Store = require('store');
-
   var index = 2;
-  var group = 0;
   var store = new Store({
     number: index
   });
-
   var binding = new Binding(store);
+
+  binding.add('text', function(el, value, expr){
+    el.innerHTML = value;
+    this.on('change ' + expr, function(val){
+      el.innerHTML = val;
+    });
+  });
+  
   binding.apply(document.body);
 
   setInterval(function(){
     store.set('number', ++index);
-    if(index%2){
-      store.set('group', ++group)
-    }
-  }, 10);
+  }, 100);
   </script>
 </body>
 </html>

@@ -173,6 +173,25 @@ describe('nested node dataset binding', function(){
   });
 });
 
+describe('data-set plugin', function(){
+  it('should call data set plugin and pass the node and its content', function(){
+    var el = domify('<span data-bind="name"></span>');
+    var store = new Store({
+      name : 'olivier'
+    });
+    var value = null;
+    var node = null;
+    var binding = new Binding(store);
+    binding.add('bind', function(el, val){
+      value = val;
+      node = el;
+    });
+    binding.apply(el);
+    assert('name' === value);
+    assert(node.isSameNode(el));
+  });
+});
+
 describe('live binding', function(){
   it('use case 1: single attribute', function(){
     var el = domify('<span>{name}</span>');
