@@ -6,7 +6,8 @@
   "keywords": [],
   "dependencies": {
     "component/assert": "*",
-    "bredele/interpolation" : "*"
+    "bredele/store": "*",
+    "bredele/node-substitution": "*"
   },
   "development": {
     "component/assert": "*",

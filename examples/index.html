@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Live binding</title>
+</head>
+<body>
+  <h3 class="title">There is <span>{number}</span> connected users.</h3>
+  <script src="../build/build.js"></script>
+  <script>
+  var Binding = require('data-binding');
+  var Store = require('store');
+
+  var index = 2;
+  var store = new Store({
+    number: index
+  });
+
+  var binding = new Binding(store);
+  binding.apply(document.querySelector('.title'));
+
+  setInterval(function(){
+    store.set('number', ++index);
+  }, 300);
+  </script>
+</body>
+</html>

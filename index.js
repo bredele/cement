@@ -1,4 +1,4 @@
-var interpolation = require('interpolation');
+var Interpolation = require('node-substitution');
 
 /**
  * Expose 'data binding'
@@ -13,6 +13,7 @@ module.exports = Binding;
  */
 
 function Binding(model){
+  //TODO: mixin with store if not instanceof store
   this.model = model;
   this.plugins = {};
 }
@@ -58,7 +59,8 @@ Binding.prototype.applyBindings = function(node) {
       } else {
         var content = attr.textContent;
         if(content.indexOf('{') > -1){
-          attr.textContent = interpolation(content, this.model);
+          //a node attribute has only one child
+          new Interpolation(attr.firstChild, this.model); 
         }
       }
     }
@@ -66,10 +68,9 @@ Binding.prototype.applyBindings = function(node) {
 
   // text node
   if (node.nodeType == 3) {
-    node.textContent = interpolation(node.textContent, this.model);
+    new Interpolation(node, this.model);
   }
 };
-
 
 /**
  * Apply bindings on nestes DOM element.
