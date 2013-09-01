@@ -1,4 +1,5 @@
 var Interpolation = require('node-substitution');
+var indexOf = require('indexof');
 
 /**
  * Expose 'data binding'
@@ -46,7 +47,7 @@ Binding.prototype.applyBindings = function(node) {
     for(var i = attrs.length; i--;){
       var attr = attrs[i];
       var plugin = this.plugins[attr.nodeName.substring(5)];
-      var content = attr.textContent; //doesn't work on IE
+      var content = attr.textContent; //doesn't work on IE..nodeValue should do it
       if(plugin){
         if(typeof plugin === 'function'){
           //TODO: refactor when we'll have more functionalities
@@ -60,7 +61,7 @@ Binding.prototype.applyBindings = function(node) {
           plugin[method].apply(plugin, params);
         }
       } else {
-        if(content.indexOf('{') > -1){
+        if(indexOf(content, '{') > -1){
           //a node attribute has only one child
           new Interpolation(attr.firstChild, this.model);
         }
@@ -75,7 +76,7 @@ Binding.prototype.applyBindings = function(node) {
 };
 
 /**
- * Apply bindings on nestes DOM element.
+ * Apply bindings on nested DOM element.
  * @param  {DomElement} node 
  * @api public
  */

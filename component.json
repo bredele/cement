@@ -7,7 +7,8 @@
   "dependencies": {
     "component/assert": "*",
     "bredele/store": "*",
-    "bredele/node-substitution": "*"
+    "bredele/node-substitution": "*",
+    "component/indexof": "*"
   },
   "development": {
     "component/assert": "*",

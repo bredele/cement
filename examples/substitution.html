@@ -9,6 +9,7 @@
   <p>
     with the id : <span>{group}group{number}</span>
   </p>
+  <a href="/ids/{number}">{id}</a>
   <p>
     And there is {group} groups of 2 users.
   </p>
@@ -24,6 +25,9 @@
   });
   var binding = new Binding(store);
   binding.apply(document.body);
+  store.compute('id', function(){
+    return this.group + '' + this.number;
+  });
 
   setInterval(function(){
     store.set('number', ++index);
