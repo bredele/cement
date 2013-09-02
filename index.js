@@ -32,6 +32,37 @@ Binding.prototype.add = function(name, plugin) {
 };
 
 
+/**
+ * Attribute binding.
+ * @param  {HTMLElement} node 
+ * @api private
+ */
+Binding.prototype.attrsBinding = function(node){
+  var attributes = node.attributes;
+  //reverse loop doesn't work on IE...
+  for(var i = 0, l = attributes.length; i < l; i++){
+    var attribute = attributes[i];
+    var name = attribute.nodeName;
+    var plugin = this.plugins[name.substring(5)];
+    var content = attribute.nodeValue;
+    if(plugin && (name.substring(0,5) === 'data-')) {
+      if(typeof plugin === 'function'){
+        plugin.call(this.model, node, content);
+      } else {
+        var expr = content.split(':');
+        var method = expr[0];
+        var params = expr[1].split(',');
+        params.splice(0,0,node);
+        plugin[method].apply(plugin, params);
+      }
+    } else {
+      if(indexOf(content, '{') > -1){
+        new Interpolation(attribute, this.model);
+      }
+    }
+  }
+};
+
 
 /**
  * Apply bindings on a single node
@@ -42,33 +73,8 @@ Binding.prototype.add = function(name, plugin) {
 Binding.prototype.applyBindings = function(node) {
   //dom element
   if (node.nodeType === 1) {
-    //TODO: clean this up
-    var attrs = node.attributes;
-    for(var i = attrs.length; i--;){
-      var attr = attrs[i];
-      var plugin = this.plugins[attr.nodeName.substring(5)];
-      var content = attr.textContent; //doesn't work on IE..nodeValue should do it
-      if(plugin){
-        if(typeof plugin === 'function'){
-          //TODO: refactor when we'll have more functionalities
-          //in plugin
-          plugin.call(this.model, node, content);
-        } else {
-          var expr = content.split(':');
-          var method = expr[0];
-          var params = expr[1].split(',');
-          params.splice(0,0,node);
-          plugin[method].apply(plugin, params);
-        }
-      } else {
-        if(indexOf(content, '{') > -1){
-          //a node attribute has only one child
-          new Interpolation(attr.firstChild, this.model);
-        }
-      }
-    }
+    this.attrsBinding(node);
   }
-
   // text node
   if (node.nodeType == 3) {
     new Interpolation(node, this.model);

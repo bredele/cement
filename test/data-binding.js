@@ -9,7 +9,6 @@ describe('single node dataset binding', function(){
   describe('function binding', function(){
 
     var plugin = null,
-        el = null,
         binding = null;
 
     beforeEach(function(){
@@ -34,14 +33,14 @@ describe('single node dataset binding', function(){
     });
 
     it('should apply multiple function bindings', function(){
-      var el = domify('<a data-test="something" data-other=""></a>');
+      var el = domify('<a data-test="something" data-other="">link</a>');
       var binding = new Binding();
       binding.add('test', plugin.test);
       binding.add('other', plugin.other);
       binding.apply(el);
 
-      assert('awesome' === el.innerText);
       assert('beauty' === el.className);
+      assert('awesome' === el.innerText);
     });
 
     it('should apply the binding model as the scope of the function binding', function(){
@@ -60,10 +59,12 @@ describe('single node dataset binding', function(){
 
     it('should binding and interpolation', function(){
       var el = domify('<a href="{link}" data-other>{title}</a>');
+
       var store = new Store({
         link : 'http://www.petrofeed.com',
         title : 'PetroFeed'
       });
+
       var binding = new Binding(store);
       binding.add('other', plugin.other);
       binding.apply(el);
