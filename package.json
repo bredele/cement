@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/bredele/data-binding.git"
+    "url": "git://github.com/leafs/data-binding.git"
   },
   "keywords": [
     "dataset",
@@ -22,7 +22,7 @@
   "license": "BSD",
   "readmeFilename": "Readme.md",
   "bugs": {
-    "url": "https://github.com/bredele/data-binding/issues"
+    "url": "https://github.com/leafs/data-binding/issues"
   },
   "devDependencies": {
     "mocha": "~1.12.0"
