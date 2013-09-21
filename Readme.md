@@ -4,7 +4,7 @@
 
 ## Installation
 
-    $ component install bredele/data-binding
+    $ component install leafs/data-binding
 
 ## API
 
