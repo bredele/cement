@@ -5,7 +5,6 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "component/assert": "*",
     "leafs/store": "*",
     "leafs/node-substitution": "*",
     "component/indexof": "*"
