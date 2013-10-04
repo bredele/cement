@@ -6,8 +6,8 @@
   "keywords": [],
   "dependencies": {
     "component/assert": "*",
-    "bredele/store": "*",
-    "bredele/node-substitution": "*",
+    "leafs/store": "*",
+    "leafs/node-substitution": "*",
     "component/indexof": "*"
   },
   "development": {
