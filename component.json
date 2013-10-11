@@ -1,12 +1,12 @@
 {
   "name": "data-binding",
-  "repo": "leafs/data-binding",
+  "repo": "bredele/data-binding",
   "description": "Data attribute binding and interpolation",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "leafs/store": "*",
-    "leafs/node-substitution": "*",
+    "bredele/store": "*",
+    "bredele/node-substitution": "*",
     "component/indexof": "*"
   },
   "development": {
