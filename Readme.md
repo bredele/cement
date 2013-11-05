@@ -4,7 +4,7 @@
 
 ## Installation
 
-    $ component install leafs/data-binding
+    $ component install bredele/data-binding
 
 ## API
 
@@ -28,17 +28,17 @@ fuction binding:
   var el = domify('<a data-plug1>{link}<span data-plug2>{label}</span></a>');
   var binding = new Binding({
     link : 'Click to go on',
-    label : 'petrofeed.com'
+    label : 'bredele'
   });
   binding.add('plug1', function(node){
-    node.setAttribute('href', 'http://www.petrofeed.com');
+    node.setAttribute('href', 'http://githug.com/bredele');
   });
   binding.add('plug2', function(node){
-    node.className = 'petrofeed';
+    node.className = 'bredele';
   });
   binding.apply(el);
 
-  //<a href="http://www.petrofeed.com" data-plug1>Click to go on<span class="petrofeed" data-plug2>petrofeed.com</span></a>
+  //<a href="http://githug.com/bredele" data-plug1>Click to go on<span class="bredele" data-plug2>bredele</span></a>
 ```
 
 object binding (more flexible and doesn't necessary need a model):
@@ -54,11 +54,11 @@ object binding (more flexible and doesn't necessary need a model):
   };
 
   binding.add('model', new Plugin({
-    prop : 'http://www.petrofeed.com'
+    prop : 'http://github.com'
   }));
 
   binding.apply(el);
-  //<a data-model="bind:innerHTML,prop">http://www.petrofeed.com</a>
+  //<a data-model="bind:innerHTML,prop">http://github.com</a>
 ```
 
 ## License
