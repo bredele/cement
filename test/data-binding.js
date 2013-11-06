@@ -26,7 +26,7 @@ describe('single node dataset binding', function(){
     it('should apply function as binding', function(){
       var el = domify('<a data-test="something"></a>');
       var binding = new Binding();
-      binding.add('test', plugin.test);
+      binding.data('test', plugin.test);
       binding.apply(el);
 
       assert('awesome' === el.innerText);
@@ -35,8 +35,8 @@ describe('single node dataset binding', function(){
     it('should apply multiple function bindings', function(){
       var el = domify('<a data-test="something" data-other="">link</a>');
       var binding = new Binding();
-      binding.add('test', plugin.test);
-      binding.add('other', plugin.other);
+      binding.data('test', plugin.test);
+      binding.data('other', plugin.other);
       binding.apply(el);
 
       assert('beauty' === el.className);
@@ -49,7 +49,7 @@ describe('single node dataset binding', function(){
         name : 'Wietrich'
       });
       var binding = new Binding(store);
-      binding.add('scope', function(el){
+      binding.data('scope', function(el){
         el.innerText = this.get('name'); //TODO: should pass the model attribute's name
       });
       binding.apply(el);
@@ -66,7 +66,7 @@ describe('single node dataset binding', function(){
       });
 
       var binding = new Binding(store);
-      binding.add('other', plugin.other);
+      binding.data('other', plugin.other);
       binding.apply(el);
 
       assert('beauty' === el.className);
@@ -87,7 +87,7 @@ describe('single node dataset binding', function(){
         };
       };
 
-      binding.add('model', new Plugin({
+      binding.data('model', new Plugin({
         prop : 'http://www.petrofeed.com'
       }));
 
@@ -107,7 +107,7 @@ describe('single node dataset binding', function(){
         };
       };
 
-      binding.add('model', new Plugin({
+      binding.data('model', new Plugin({
         firstname : 'Olivier',
         lastname : 'Wietrich'
       }));
@@ -131,7 +131,7 @@ describe('single node dataset binding', function(){
         };
       };
 
-      binding.add('model', new Plugin(store));
+      binding.data('model', new Plugin(store));
 
       binding.apply(el);
       assert('http://www.petrofeed.com' === el.innerHTML);
@@ -145,10 +145,10 @@ describe('nested node dataset binding', function(){
   it('shoud apply bindings on different dom nodes', function(){
     var el = domify('<a data-plug1><span data-plug2>test</span></a>');
     var binding = new Binding();
-    binding.add('plug1', function(node){
+    binding.data('plug1', function(node){
       node.setAttribute('href', 'http://www.petrofeed.com');
     });
-    binding.add('plug2', function(node){
+    binding.data('plug2', function(node){
       node.innerText = 'PetroFeed';
     });
     binding.apply(el);
@@ -162,10 +162,10 @@ describe('nested node dataset binding', function(){
       link : 'Click to go on',
       label : 'petrofeed.com'
     }));
-    binding.add('plug1', function(node){
+    binding.data('plug1', function(node){
       node.setAttribute('href', 'http://www.petrofeed.com');
     });
-    binding.add('plug2', function(node){
+    binding.data('plug2', function(node){
       node.innerText = 'PetroFeed';
     });
     binding.apply(el);
@@ -183,7 +183,7 @@ describe('data-set plugin', function(){
     var value = null;
     var node = null;
     var binding = new Binding(store);
-    binding.add('bind', function(el, val){
+    binding.data('bind', function(el, val){
       value = val;
       node = el;
     });
