@@ -44,7 +44,9 @@ A binding can be either an attribute or a dataset attribute.
 
 result:
 ```html
-<a href="http://githug.com/bredele" link>Click to go on<span class="bredele" data-class>bredele</span></a>>
+<a href="http://githug.com/bredele" link>
+  Click to go on<span class="bredele" data-class>bredele</span>
+</a>>
 ```
 
 ### Object binding
