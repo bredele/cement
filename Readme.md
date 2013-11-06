@@ -62,7 +62,7 @@ Associate a binding to an object. Every function inside this object can be calle
 <a data-model="bind:innerHTML,prop"></a>'
 ```
 
-object binding (more flexible and doesn't necessary need a model):
+
 ```js
   var binding = new Binding();
   var Plugin = function(model){
@@ -87,6 +87,7 @@ result:
 **Note:** 
   - the first argument of the function is the DOM node associated to the binding.
   - Object binding are more flexible and doesn't necessary need a model object.
+  - the binding are parsed according the following format (method:arg,arg,...)
 
 ## API
 
