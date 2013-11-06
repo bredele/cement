@@ -189,7 +189,7 @@ describe('data-set plugin', function(){
     });
     binding.apply(el);
     assert('name' === value);
-    assert(node.isSameNode(el));
+    assert(node.isEqualNode(el));
   });
 });
 
