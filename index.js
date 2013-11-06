@@ -21,14 +21,44 @@ function Binding(model){
 
 
 /**
+ * Format plugin content.
+ * @param  {String} str 
+ * @return {Object}
+ * @api private     
+ */
+
+function parse(node, str){
+  var expr = str.split(':');
+  var params = expr[1].split(',');
+  params.splice(0,0,node);
+  return {
+    method: expr[0],
+    params: params
+  };
+}
+
+
+/**
  * Add binding by name
  * @param {String} name  
  * @param {Object} plugin 
  * @api public
  */
 
-Binding.prototype.add = function(name, plugin) {
+Binding.prototype.attr = function(name, plugin) {
   this.plugins[name] = plugin;
+};
+
+
+/**
+ * Add binding by name
+ * @param {String} name  
+ * @param {Object} plugin 
+ * @api public
+ */
+
+Binding.prototype.data = function(name, plugin) {
+  this.plugins["data-" + name] = plugin;
 };
 
 
@@ -37,23 +67,21 @@ Binding.prototype.add = function(name, plugin) {
  * @param  {HTMLElement} node 
  * @api private
  */
+
 Binding.prototype.attrsBinding = function(node){
   var attributes = node.attributes;
   //reverse loop doesn't work on IE...
   for(var i = 0, l = attributes.length; i < l; i++){
     var attribute = attributes[i];
-    var name = attribute.nodeName;
-    var plugin = this.plugins[name.substring(5)];
+    var plugin = this.plugins[attribute.nodeName];
     var content = attribute.nodeValue;
-    if(plugin && (name.substring(0,5) === 'data-')) {
+
+    if(plugin) {
       if(typeof plugin === 'function'){
         plugin.call(this.model, node, content);
       } else {
-        var expr = content.split(':');
-        var method = expr[0];
-        var params = expr[1].split(',');
-        params.splice(0,0,node);
-        plugin[method].apply(plugin, params);
+        var format = parse(node, content);
+        plugin[format.method].apply(plugin, format.params);
       }
     } else {
       if(indexOf(content, '{') > -1){

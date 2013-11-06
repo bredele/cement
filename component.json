@@ -5,11 +5,11 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "bredele/store": "*",
     "bredele/node-substitution": "*",
     "component/indexof": "*"
   },
   "development": {
+    "bredele/store": "*",
     "component/assert": "*",
     "component/domify": "1.0.0"
   },

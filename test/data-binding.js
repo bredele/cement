@@ -4,12 +4,35 @@ var domify = require('domify');
 var assert = require('assert');
 
 
-describe('single node dataset binding', function(){
+describe('single node data binding', function(){
+
+  describe('Attribute and Dataset binding', function(){
+    it('should add attribute binding', function(){
+      var el = domify('<a link></a>');
+      var binding = new Binding();
+      binding.attr('link', function(el){
+         el.setAttribute('href', 'http://github.com/bredele');
+      });
+      binding.apply(el);
+
+      assert('http://github.com/bredele' === el.getAttribute('href'));
+    });
+
+    it('should add dataset binding', function(){
+      var el = domify('<a data-text="olivier"></a>');
+      var binding = new Binding();
+      binding.data('text', function(el, value){
+         el.innerText = value;
+      });
+      binding.apply(el);
+
+      assert('olivier' === el.innerText);
+    });
+  });
 
   describe('function binding', function(){
 
-    var plugin = null,
-        binding = null;
+    var plugin = null;
 
     beforeEach(function(){
       plugin = {
@@ -26,7 +49,7 @@ describe('single node dataset binding', function(){
     it('should apply function as binding', function(){
       var el = domify('<a data-test="something"></a>');
       var binding = new Binding();
-      binding.add('test', plugin.test);
+      binding.data('test', plugin.test);
       binding.apply(el);
 
       assert('awesome' === el.innerText);
@@ -35,8 +58,8 @@ describe('single node dataset binding', function(){
     it('should apply multiple function bindings', function(){
       var el = domify('<a data-test="something" data-other="">link</a>');
       var binding = new Binding();
-      binding.add('test', plugin.test);
-      binding.add('other', plugin.other);
+      binding.data('test', plugin.test);
+      binding.data('other', plugin.other);
       binding.apply(el);
 
       assert('beauty' === el.className);
@@ -49,7 +72,7 @@ describe('single node dataset binding', function(){
         name : 'Wietrich'
       });
       var binding = new Binding(store);
-      binding.add('scope', function(el){
+      binding.data('scope', function(el){
         el.innerText = this.get('name'); //TODO: should pass the model attribute's name
       });
       binding.apply(el);
@@ -61,17 +84,17 @@ describe('single node dataset binding', function(){
       var el = domify('<a href="{link}" data-other>{title}</a>');
 
       var store = new Store({
-        link : 'http://www.petrofeed.com',
-        title : 'PetroFeed'
+        link : 'http://github.com/bredele',
+        title : 'bredele'
       });
 
       var binding = new Binding(store);
-      binding.add('other', plugin.other);
+      binding.data('other', plugin.other);
       binding.apply(el);
 
       assert('beauty' === el.className);
-      assert('http://www.petrofeed.com' === el.getAttribute('href'));
-      assert('PetroFeed' === el.innerText);
+      assert('http://github.com/bredele' === el.getAttribute('href'));
+      assert('bredele' === el.innerText);
     });
 
   });
@@ -87,12 +110,12 @@ describe('single node dataset binding', function(){
         };
       };
 
-      binding.add('model', new Plugin({
-        prop : 'http://www.petrofeed.com'
+      binding.data('model', new Plugin({
+        prop : 'http://github.com/bredele'
       }));
 
       binding.apply(el);
-      assert('http://www.petrofeed.com' === el.innerHTML);
+      assert('http://github.com/bredele' === el.innerHTML);
     });
 
     it('should apply nested bindings', function(){
@@ -107,21 +130,21 @@ describe('single node dataset binding', function(){
         };
       };
 
-      binding.add('model', new Plugin({
+      binding.data('model', new Plugin({
         firstname : 'Olivier',
         lastname : 'Wietrich'
       }));
 
       binding.apply(el);
       assert('Olivier' === el.querySelector('.first').innerHTML);
-      assert('Wietrich' === el.querySelector('.last').innerHTML);      
+      assert('Wietrich' === el.querySelector('.last').innerHTML);
     });
 
     it('should apply bindings and inteprolation', function(){
       var el = domify('<a class="{className}" data-model="bind:innerHTML,prop"></a>');
       var store = new Store({
-        prop : 'http://www.petrofeed.com',
-        className : 'petrofeed'
+        prop : 'http://github.com/bredele',
+        className : 'bredele'
       });
       var binding = new Binding(store);
 
@@ -131,11 +154,11 @@ describe('single node dataset binding', function(){
         };
       };
 
-      binding.add('model', new Plugin(store));
+      binding.data('model', new Plugin(store));
 
       binding.apply(el);
-      assert('http://www.petrofeed.com' === el.innerHTML);
-      assert('petrofeed' === el.className);
+      assert('http://github.com/bredele' === el.innerHTML);
+      assert('bredele' === el.className);
     });
   });
 });
@@ -145,32 +168,32 @@ describe('nested node dataset binding', function(){
   it('shoud apply bindings on different dom nodes', function(){
     var el = domify('<a data-plug1><span data-plug2>test</span></a>');
     var binding = new Binding();
-    binding.add('plug1', function(node){
-      node.setAttribute('href', 'http://www.petrofeed.com');
+    binding.data('plug1', function(node){
+      node.setAttribute('href', 'http://github.com/bredele');
     });
-    binding.add('plug2', function(node){
-      node.innerText = 'PetroFeed';
+    binding.data('plug2', function(node){
+      node.innerText = 'bredele';
     });
     binding.apply(el);
-    assert('http://www.petrofeed.com' === el.getAttribute('href'));
-    assert('PetroFeed' === el.firstChild.innerText);
+    assert('http://github.com/bredele' === el.getAttribute('href'));
+    assert('bredele' === el.firstChild.innerText);
   });
 
   it('shoud apply bindings on different dom nodes with interpolation', function(){
     var el = domify('<a data-plug1>{link}<span data-plug2>{label}</span></a>');
     var binding = new Binding(new Store({
       link : 'Click to go on',
-      label : 'petrofeed.com'
+      label : 'bredele website'
     }));
-    binding.add('plug1', function(node){
-      node.setAttribute('href', 'http://www.petrofeed.com');
+    binding.data('plug1', function(node){
+      node.setAttribute('href', 'http://github.com/bredele');
     });
-    binding.add('plug2', function(node){
-      node.innerText = 'PetroFeed';
+    binding.data('plug2', function(node){
+      node.innerText = 'bredele';
     });
     binding.apply(el);
-    assert('http://www.petrofeed.com' === el.getAttribute('href'));
-    assert('PetroFeed' === el.querySelector('span').innerText);
+    assert('http://github.com/bredele' === el.getAttribute('href'));
+    assert('bredele' === el.querySelector('span').innerText);
   });
 });
 
@@ -183,13 +206,13 @@ describe('data-set plugin', function(){
     var value = null;
     var node = null;
     var binding = new Binding(store);
-    binding.add('bind', function(el, val){
+    binding.data('bind', function(el, val){
       value = val;
       node = el;
     });
     binding.apply(el);
     assert('name' === value);
-    assert(node.isSameNode(el));
+    assert(node.isEqualNode(el));
   });
 });
 
@@ -210,33 +233,33 @@ describe('live binding', function(){
   it('use case 2: multiple attributes on different nodes', function(){
     var el = domify('<a href={link}>{label}</a>');
     var store = new Store({
-      label : 'petrofeed'
+      label : 'bredele'
     });
 
     var binding = new Binding(store);
     binding.apply(el);
-    assert('petrofeed' === el.innerHTML);
+    assert('bredele' === el.innerHTML);
     assert('' === el.getAttribute('href'));
 
-    store.set('link', 'http://www.petrofeed.com');
-    assert('http://www.petrofeed.com' === el.getAttribute('href'));
+    store.set('link', 'http://github.com/bredele');
+    assert('http://github.com/bredele' === el.getAttribute('href'));
 
   });
 
   it('use case 3: multiple attributes on the same node', function(){
-    var el = domify('<a href={link}/team/{name}></a>');
+    var el = domify('<a href={link}/repo/{name}></a>');
     var store = new Store({
-      link : 'http://www.petrofeed.com',
-      name:'olivier'
+      link : 'http://github.com/bredele',
+      name:'store'
     });
 
     var binding = new Binding(store);
     binding.apply(el);
-    assert('http://www.petrofeed.com/team/olivier' === el.getAttribute('href'));
+    assert('http://github.com/bredele/repo/store' === el.getAttribute('href'));
     store.set('link', 'http://github.com');
-    assert('http://github.com/team/olivier' === el.getAttribute('href'));
+    assert('http://github.com/repo/store' === el.getAttribute('href'));
     store.set('name', 'bredele');
-    assert('http://github.com/team/bredele' === el.getAttribute('href'));    
+    assert('http://github.com/repo/bredele' === el.getAttribute('href'));    
   });
 
   it('use case 4: nested attributes', function(){
@@ -249,10 +272,10 @@ describe('live binding', function(){
     binding.apply(el);
     assert('bredele' === el.firstChild.innerHTML);
     assert('http://github.com/bredele' === el.getAttribute('href'));
-    store.set('link', 'http://www.petrofeed.com');
-    assert('http://www.petrofeed.com' === el.getAttribute('href'));
-    store.set('label', 'petrofeed');
-    assert('petrofeed' === el.firstChild.innerHTML);
+    store.set('link', 'http://www.google.com');
+    assert('http://www.google.com' === el.getAttribute('href'));
+    store.set('label', 'olivier');
+    assert('olivier' === el.firstChild.innerHTML);
   });
 
 });
