@@ -55,8 +55,7 @@ Binding.prototype.attrsBinding = function(node){
   //reverse loop doesn't work on IE...
   for(var i = 0, l = attributes.length; i < l; i++){
     var attribute = attributes[i];
-    var name = attribute.nodeName;
-    var plugin = this.plugins[name];
+    var plugin = this.plugins[attribute.nodeName];
     var content = attribute.nodeValue;
 
     if(plugin) {
