@@ -1,30 +1,19 @@
-# data-binding
+# binding
 
   Data attribute binding for modern browsers...and IE8>
 
 ## Installation
 
-    $ component install bredele/data-binding
+    $ component install bredele/binding
 
-## API
+## Usage
 
-### Binding#(model)
+Initialize the component:
 
-  initialize a binding with a model object (right now a simple Object)
-
-### Binding#attr(name, binding) 
-
-  add attribute bindings (functions) by name
-
-### Binding#data(name, binding) 
-
-  add dataset bindings (functions) by name
-
-### Binding#apply(node)
-
-  apply bindings on a give node
-
-## Example
+```js
+var Binding = require('binding');
+var binding = new Binding();
+```
 
 fuction binding:
 ```js
@@ -64,6 +53,24 @@ object binding (more flexible and doesn't necessary need a model):
   binding.apply(el);
   //<a data-model="bind:innerHTML,prop">http://github.com</a>
 ```
+## API
+
+### Binding#(model)
+
+  initialize a binding with a model object (right now a simple Object)
+
+### Binding#attr(name, binding) 
+
+  add attribute bindings (functions) by name
+
+### Binding#data(name, binding) 
+
+  add dataset bindings (functions) by name
+
+### Binding#apply(node)
+
+  apply bindings on a give node
+
 
 ## License
 
