@@ -12,9 +12,13 @@
 
   initialize a binding with a model object (right now a simple Object)
 
-### Binding#add(name, binding)
+### Binding#attr(name, binding) 
 
-  add bindings (functions) by name
+  add attribute bindings (functions) by name
+
+### Binding#data(name, binding) 
+
+  add dataset bindings (functions) by name
 
 ### Binding#apply(node)
 
@@ -25,15 +29,15 @@
 fuction binding:
 ```js
   var domify = require('domify');
-  var el = domify('<a data-plug1>{link}<span data-plug2>{label}</span></a>');
+  var el = domify('<a link>{link}<span data-class>{label}</span></a>');
   var binding = new Binding({
     link : 'Click to go on',
     label : 'bredele'
   });
-  binding.add('plug1', function(node){
+  binding.attr('link', function(node){
     node.setAttribute('href', 'http://githug.com/bredele');
   });
-  binding.add('plug2', function(node){
+  binding.data('class', function(node){
     node.className = 'bredele';
   });
   binding.apply(el);
@@ -53,7 +57,7 @@ object binding (more flexible and doesn't necessary need a model):
     };
   };
 
-  binding.add('model', new Plugin({
+  binding.data('model', new Plugin({
     prop : 'http://github.com'
   }));
 
