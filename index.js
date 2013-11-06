@@ -27,8 +27,20 @@ function Binding(model){
  * @api public
  */
 
-Binding.prototype.add = function(name, plugin) {
+Binding.prototype.attr = function(name, plugin) {
   this.plugins[name] = plugin;
+};
+
+
+/**
+ * Add binding by name
+ * @param {String} name  
+ * @param {Object} plugin 
+ * @api public
+ */
+
+Binding.prototype.data = function(name, plugin) {
+  this.plugins["data-" + name] = plugin;
 };
 
 
@@ -37,6 +49,7 @@ Binding.prototype.add = function(name, plugin) {
  * @param  {HTMLElement} node 
  * @api private
  */
+
 Binding.prototype.attrsBinding = function(node){
   var attributes = node.attributes;
   //reverse loop doesn't work on IE...
