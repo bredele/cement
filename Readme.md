@@ -49,14 +49,19 @@ result:
 </a>>
 ```
 
+*Note:* the scope of the function is the object passed to the Binding constructor. 
+
 ### Object binding
 
+Associate a binding to an object. Every function inside this object can be called by the binding.
+
+```html
+<!-- el -->
+<a data-model="bind:innerHTML,prop"></a>'
+```
 
 object binding (more flexible and doesn't necessary need a model):
 ```js
-  var domif = require('domify');
-  var el = domify('<a data-model="bind:innerHTML,prop"></a>');
-
   var binding = new Binding();
   var Plugin = function(model){
     this.bind = function(el, attr, prop){
@@ -69,8 +74,14 @@ object binding (more flexible and doesn't necessary need a model):
   }));
 
   binding.apply(el);
-  //<a data-model="bind:innerHTML,prop">http://github.com</a>
 ```
+
+result:
+
+```html
+<a data-model="bind:innerHTML,prop">http://github.com</a>
+```
+
 ## API
 
 ### Binding#(model)
