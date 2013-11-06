@@ -14,25 +14,41 @@ Initialize the component:
 var Binding = require('binding');
 var binding = new Binding();
 ```
+### Function binding
 
-fuction binding:
+Associate a binding to a function.
+
+```html
+<!-- el -->
+<a link>{link}<span data-class>{label}</span></a>
+```
+
+A binding can be either an attribute or a dataset attribute.
 ```js
-  var domify = require('domify');
-  var el = domify('<a link>{link}<span data-class>{label}</span></a>');
   var binding = new Binding({
     link : 'Click to go on',
     label : 'bredele'
   });
+  
   binding.attr('link', function(node){
     node.setAttribute('href', 'http://githug.com/bredele');
   });
+  
   binding.data('class', function(node){
     node.className = 'bredele';
   });
+  
   binding.apply(el);
 
-  //<a href="http://githug.com/bredele" data-plug1>Click to go on<span class="bredele" data-plug2>bredele</span></a>
 ```
+
+result:
+```html
+<a href="http://githug.com/bredele" link>Click to go on<span class="bredele" data-class>bredele</span></a>>
+```
+
+### Object binding
+
 
 object binding (more flexible and doesn't necessary need a model):
 ```js
