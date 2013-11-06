@@ -49,7 +49,9 @@ result:
 </a>>
 ```
 
-*Note:* the scope of the function is the object passed to the Binding constructor. 
+**Note:** 
+  - the first argument of the function is the DOM node associated to the binding.
+  - the scope of the function is the object passed to the Binding constructor. 
 
 ### Object binding
 
@@ -81,6 +83,10 @@ result:
 ```html
 <a data-model="bind:innerHTML,prop">http://github.com</a>
 ```
+
+**Note:** 
+  - the first argument of the function is the DOM node associated to the binding.
+  - Object binding are more flexible and doesn't necessary need a model object.
 
 ## API
 
