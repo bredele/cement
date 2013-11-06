@@ -1,6 +1,6 @@
 {
-  "name": "data-binding",
-  "repo": "bredele/data-binding",
+  "name": "binding",
+  "repo": "bredele/binding",
   "description": "Data attribute binding and interpolation",
   "version": "0.0.1",
   "keywords": [],
