@@ -21,6 +21,24 @@ function Binding(model){
 
 
 /**
+ * Format plugin content.
+ * @param  {String} str 
+ * @return {Object}
+ * @api private     
+ */
+
+function parse(node, str){
+  var expr = str.split(':');
+  var params = expr[1].split(',');
+  params.splice(0,0,node);
+  return {
+    method: expr[0],
+    params: params
+  };
+}
+
+
+/**
  * Add binding by name
  * @param {String} name  
  * @param {Object} plugin 
@@ -62,11 +80,8 @@ Binding.prototype.attrsBinding = function(node){
       if(typeof plugin === 'function'){
         plugin.call(this.model, node, content);
       } else {
-        var expr = content.split(':');
-        var method = expr[0];
-        var params = expr[1].split(',');
-        params.splice(0,0,node);
-        plugin[method].apply(plugin, params);
+        var format = parse(node, content);
+        plugin[format.method].apply(plugin, format.params);
       }
     } else {
       if(indexOf(content, '{') > -1){
