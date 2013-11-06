@@ -56,9 +56,10 @@ Binding.prototype.attrsBinding = function(node){
   for(var i = 0, l = attributes.length; i < l; i++){
     var attribute = attributes[i];
     var name = attribute.nodeName;
-    var plugin = this.plugins[name.substring(5)];
+    var plugin = this.plugins[name];
     var content = attribute.nodeValue;
-    if(plugin && (name.substring(0,5) === 'data-')) {
+
+    if(plugin) {
       if(typeof plugin === 'function'){
         plugin.call(this.model, node, content);
       } else {
