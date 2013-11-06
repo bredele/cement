@@ -4,12 +4,35 @@ var domify = require('domify');
 var assert = require('assert');
 
 
-describe('single node dataset binding', function(){
+describe('single node data binding', function(){
+
+  describe('Attribute and Dataset binding', function(){
+    it('should add attribute binding', function(){
+      var el = domify('<a link></a>');
+      var binding = new Binding();
+      binding.attr('link', function(el){
+         el.setAttribute('href', 'http://github.com/bredele');
+      });
+      binding.apply(el);
+
+      assert('http://github.com/bredele' === el.getAttribute('href'));
+    });
+
+    it('should add dataset binding', function(){
+      var el = domify('<a data-text="olivier"></a>');
+      var binding = new Binding();
+      binding.data('text', function(el, value){
+         el.innerText = value;
+      });
+      binding.apply(el);
+
+      assert('olivier' === el.innerText);
+    });
+  });
 
   describe('function binding', function(){
 
-    var plugin = null,
-        binding = null;
+    var plugin = null;
 
     beforeEach(function(){
       plugin = {
