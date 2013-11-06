@@ -1,6 +1,6 @@
 # data-binding
 
-  Data attribute binding and interpolation for modern browsers...and IE8>
+  Data attribute binding for modern browsers...and IE8>
 
 ## Installation
 
