@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ovveride html attribute</title>
+</head>
+<body>
+  <form class="form">
+    <input type="text" required>
+    <button>Submit</button>
+  </form>
+
+  <script src="../build/build.js"></script>
+  <script>
+  var Binding = require('binding');
+
+  var binding = new Binding();
+  binding.attr('required', function(){
+    alert('haha');
+  });
+
+  binding.apply(document.querySelector('.form'));
+
+  </script>
+</body>
+</html>
