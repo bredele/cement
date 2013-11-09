@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ovveride html attribute</title>
+  <title>Override html attribute</title>
 </head>
 <body>
   <form class="form">
     <input type="text" required>
+    <input type="email" required>
+    <input type="bazinga" required>
     <button>Submit</button>
   </form>
 
@@ -15,8 +17,8 @@
   var Binding = require('binding');
 
   var binding = new Binding();
-  binding.attr('required', function(){
-    alert('haha');
+  binding.attr('required', function(node){
+    alert(node.getAttribute('type'));
   });
 
   binding.apply(document.querySelector('.form'));
