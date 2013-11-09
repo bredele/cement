@@ -9,7 +9,7 @@
 
   <script src="../build/build.js"></script>
   <script>
-  var Binding = require('data-binding');
+  var Binding = require('binding');
   var Store = require('store');
   var index = 2;
   var store = new Store({
@@ -17,7 +17,7 @@
   });
   var binding = new Binding(store);
 
-  binding.add('text', function(el, expr){
+  binding.data('text', function(el, expr){
     el.innerHTML = this.get(expr);
     this.on('change ' + expr, function(val){
       el.innerHTML = val;
