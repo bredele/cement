@@ -71,10 +71,8 @@ Binding.prototype.attrsBinding = function(node){
           plugin[format.method].apply(plugin, format.params);
         }
       }
-    } else {
-      if(indexOf(content, '{') > -1){
-        new Interpolation(attribute, this.model);
-      }
+    } else if(indexOf(content, '{') > -1){
+      new Interpolation(attribute, this.model);
     }
   }
 };
