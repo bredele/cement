@@ -63,6 +63,7 @@ Binding.prototype.attrsBinding = function(node){
       if(typeof plugin === 'function'){
         plugin.call(this.model, node, content);
       } else {
+        //is it necessary...event delegation?
         var formats = parser(content);
         for(var j = 0, h = formats.length; j < h; j++) {
           var format = formats[j];
