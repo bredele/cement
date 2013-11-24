@@ -5,9 +5,9 @@
   <title>Override html attribute</title>
 </head>
 <body>
-  <form class="form">
-    <input type="text" required>
-    <input type="email" required>
+  <form class="form" action>
+    <input type="text" required="nickname">
+    <input type="password" required="password">
     <input type="bazinga" required>
     <button>Submit</button>
   </form>
@@ -17,8 +17,14 @@
   var Binding = require('binding');
 
   var binding = new Binding();
-  binding.attr('required', function(node){
-    alert(node.getAttribute('type'));
+  binding.attr('action', function(node){
+    node.addEventListener('submit', function(ev){
+      alert('valid?');
+    });
+  });
+  binding.attr('required', function(node, name){
+    console.log(name);
+    //alert(node.getAttribute('type'));
   });
 
   binding.apply(document.querySelector('.form'));

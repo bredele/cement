@@ -1,5 +1,6 @@
 var Interpolation = require('node-substitution');
 var indexOf = require('indexof');
+var parse = require('plugin-parser');
 
 /**
  * Expose 'data binding'
@@ -17,24 +18,6 @@ function Binding(model){
   //TODO: mixin with store if not instanceof store
   this.model = model;
   this.plugins = {};
-}
-
-
-/**
- * Format plugin content.
- * @param  {String} str 
- * @return {Object}
- * @api private     
- */
-
-function parse(node, str){
-  var expr = str.split(':');
-  var params = expr[1].split(',');
-  params.splice(0,0,node);
-  return {
-    method: expr[0],
-    params: params
-  };
 }
 
 
@@ -80,8 +63,12 @@ Binding.prototype.attrsBinding = function(node){
       if(typeof plugin === 'function'){
         plugin.call(this.model, node, content);
       } else {
-        var format = parse(node, content);
-        plugin[format.method].apply(plugin, format.params);
+        var formats = parse(content);
+        for(var j = 0, l = formats.length; j < l; j++) {
+          var format = formats[j];
+          format.params.splice(0,0, node);
+          plugin[format.method].apply(plugin, format.params);
+        }
       }
     } else {
       if(indexOf(content, '{') > -1){

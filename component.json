@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "bredele/node-substitution": "*",
+    "bredele/plugin-parser" : "*",
     "component/indexof": "*"
   },
   "development": {
