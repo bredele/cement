@@ -109,7 +109,7 @@ Binding.prototype.apply = function(node) {
   this.applyBindings(node);
 
   //child nodes are elements and text
-  for (var i = 0; i < nodes.length; i++) {
+  for (var i = 0, l = nodes.length; i < l; i++) {
     var child = nodes[i];
     this.apply(child);
   }
