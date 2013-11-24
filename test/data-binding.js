@@ -275,7 +275,7 @@ describe('live binding', function(){
     store.set('link', 'http://github.com');
     assert('http://github.com/repo/store' === el.getAttribute('href'));
     store.set('name', 'bredele');
-    assert('http://github.com/repo/bredele' === el.getAttribute('href'));    
+    assert('http://github.com/repo/bredele' === el.getAttribute('href'));
   });
 
   it('use case 4: nested attributes', function(){

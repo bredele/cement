@@ -2,6 +2,7 @@ var Interpolation = require('node-substitution');
 var indexOf = require('indexof');
 var parser = require('plugin-parser');
 
+
 /**
  * Expose 'data binding'
  */
@@ -87,13 +88,9 @@ Binding.prototype.attrsBinding = function(node){
 Binding.prototype.applyBindings = function(node) {
   var type = node.nodeType;
   //dom element
-  if (type === 1) {
-    this.attrsBinding(node);
-  }
+  if (type === 1) return this.attrsBinding(node);
   // text node
-  if (type == 3) {
-    new Interpolation(node, this.model);
-  }
+  if (type == 3) new Interpolation(node, this.model);
 };
 
 
@@ -109,7 +106,6 @@ Binding.prototype.apply = function(node) {
 
   //child nodes are elements and text
   for (var i = 0, l = nodes.length; i < l; i++) {
-    var child = nodes[i];
-    this.apply(child);
+    this.apply(nodes[i]);
   }
 };
