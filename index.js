@@ -97,6 +97,7 @@ Binding.prototype.applyBindings = function(node) {
   }
 };
 
+
 /**
  * Apply bindings on nested DOM element.
  * @param  {DomElement} node 
@@ -104,11 +105,12 @@ Binding.prototype.applyBindings = function(node) {
  */
 
 Binding.prototype.apply = function(node) {
+  var nodes = node.childNodes;
   this.applyBindings(node);
 
   //child nodes are elements and text
-  for (var i = 0; i < node.childNodes.length; i++) {
-    var child = node.childNodes[i];
+  for (var i = 0; i < nodes.length; i++) {
+    var child = nodes[i];
     this.apply(child);
   }
 };

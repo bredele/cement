@@ -29,12 +29,13 @@
     return this.group + '' + this.number;
   });
 
+
   setInterval(function(){
     store.set('number', ++index);
     if(index%2){
       store.set('group', ++group)
     }
-  }, 10);
+  }, 1000);
   </script>
 </body>
 </html>
