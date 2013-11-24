@@ -301,12 +301,12 @@ describe('issues', function(){
     var el = domify('<ul data-list="each"></ul>');
     var cache = false;
     var binding = new Binding();
-    binding.attr('list', {
+    binding.data('list', {
       each: function(){
         cache = true;
       }
     });
-    binding.apply(el);;
+    binding.apply(el);
     assert(cache === true);
   });
   
