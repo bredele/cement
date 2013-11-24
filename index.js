@@ -1,6 +1,6 @@
 var Interpolation = require('node-substitution');
 var indexOf = require('indexof');
-var parse = require('plugin-parser');
+var parser = require('plugin-parser');
 
 /**
  * Expose 'data binding'
@@ -63,8 +63,8 @@ Binding.prototype.attrsBinding = function(node){
       if(typeof plugin === 'function'){
         plugin.call(this.model, node, content);
       } else {
-        var formats = parse(content);
-        for(var j = 0, l = formats.length; j < l; j++) {
+        var formats = parser(content);
+        for(var j = 0, h = formats.length; j < h; j++) {
           var format = formats[j];
           format.params.splice(0,0, node);
           plugin[format.method].apply(plugin, format.params);

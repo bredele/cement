@@ -160,6 +160,22 @@ describe('single node data binding', function(){
       assert('http://github.com/bredele' === el.innerHTML);
       assert('bredele' === el.className);
     });
+
+    it('should call default binding method', function(){
+      var el = domify('<input required>');
+
+      var binding = new Binding();
+      var Plugin = function(){
+        this.default = function(el){
+          el.value = 'bredele';
+        };
+      };
+
+      binding.attr('required', new Plugin());
+
+      binding.apply(el);
+      assert('bredele' === el.value);
+    });
   });
 });
 
