@@ -295,3 +295,19 @@ describe('live binding', function(){
   });
 
 });
+
+describe('issues', function(){
+  it("refs #4", function() {
+    var el = domify('<ul data-list="each"></ul>');
+    var cache = false;
+    var binding = new Binding();
+    binding.attr('list', {
+      each: function(){
+        cache = true;
+      }
+    });
+    binding.apply(el);;
+    assert(cache === true);
+  });
+  
+});
