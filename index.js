@@ -87,12 +87,13 @@ Binding.prototype.attrsBinding = function(node){
  */
 
 Binding.prototype.applyBindings = function(node) {
+  var type = node.nodeType;
   //dom element
-  if (node.nodeType === 1) {
+  if (type === 1) {
     this.attrsBinding(node);
   }
   // text node
-  if (node.nodeType == 3) {
+  if (type == 3) {
     new Interpolation(node, this.model);
   }
 };
