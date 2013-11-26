@@ -1,6 +1,10 @@
 # binding
 
-  Data attribute binding for modern browsers...and IE8>
+  > Attribute binding and data binding for modern browsers...and IE8 >
+
+Allows to bind a node attribute to a piece of JavaScript logic and to substitute 
+text nodes with model properties (live binding).
+
 
 ## Installation
 
@@ -24,6 +28,7 @@ Associate a binding to a function.
 ```
 
 A binding can be either an attribute or a dataset attribute.
+
 ```js
   var binding = new Binding({
     link : 'Click to go on',
