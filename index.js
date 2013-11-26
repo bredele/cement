@@ -18,6 +18,7 @@ module.exports = Binding;
 function Binding(model){
   //TODO: mixin with store if not instanceof store
   this.model = model;
+  this.depth = -1;
   this.plugins = {};
 }
 
@@ -101,10 +102,8 @@ Binding.prototype.applyBindings = function(node) {
  */
 
 Binding.prototype.apply = function(node) {
-  var nodes = node.childNodes;
   this.applyBindings(node);
-
-  //child nodes are elements and text
+  var nodes = node.childNodes;
   for (var i = 0, l = nodes.length; i < l; i++) {
     this.apply(nodes[i]);
   }
