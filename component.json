@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "bredele/node-substitution": "*",
+    "bredele/subs": "*",
     "bredele/plugin-parser" : "*",
     "component/indexof": "*"
   },

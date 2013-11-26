@@ -1,4 +1,4 @@
-var Interpolation = require('node-substitution');
+var subs = require('subs');
 var indexOf = require('indexof');
 var parser = require('plugin-parser');
 
@@ -73,7 +73,7 @@ Binding.prototype.attrsBinding = function(node){
         }
       }
     } else if(indexOf(content, '{') > -1){
-      new Interpolation(attribute, this.model);
+      subs(attribute, this.model);
     }
   }
 };
@@ -90,7 +90,7 @@ Binding.prototype.applyBindings = function(node) {
   //dom element
   if (type === 1) return this.attrsBinding(node);
   // text node
-  if (type == 3) new Interpolation(node, this.model);
+  if (type == 3) subs(node, this.model);
 };
 
 
