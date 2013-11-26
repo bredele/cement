@@ -1,6 +1,6 @@
-var subs = require('subs');
-var indexOf = require('indexof');
-var parser = require('plugin-parser');
+var subs = require('subs'),
+    indexOf = require('indexof'),
+    parser = require('plugin-parser');
 
 
 /**
@@ -56,9 +56,9 @@ Binding.prototype.attrsBinding = function(node){
   var attributes = node.attributes;
   //reverse loop doesn't work on IE...
   for(var i = 0, l = attributes.length; i < l; i++){
-    var attribute = attributes[i];
-    var plugin = this.plugins[attribute.nodeName];
-    var content = attribute.nodeValue;
+    var attribute = attributes[i],
+        plugin = this.plugins[attribute.nodeName],
+        content = attribute.nodeValue;
 
     if(plugin) {
       if(typeof plugin === 'function'){
