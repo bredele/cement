@@ -42,7 +42,7 @@ Binding.prototype.attr = function(name, plugin) {
  */
 
 Binding.prototype.data = function(name, plugin) {
-  this.plugins["data-" + name] = plugin;
+  this.attr("data-" + name, plugin);
 };
 
 
