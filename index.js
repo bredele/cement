@@ -18,7 +18,7 @@ module.exports = Binding;
 function Binding(model){
   //TODO: mixin with store if not instanceof store
   this.model = model;
-  this.depth = -1;
+  //this.depth = -1;
   this.plugins = {};
 }
 
@@ -30,20 +30,8 @@ function Binding(model){
  * @api public
  */
 
-Binding.prototype.attr = function(name, plugin) {
+Binding.prototype.add = function(name, plugin) {
   this.plugins[name] = plugin;
-};
-
-
-/**
- * Add binding by name
- * @param {String} name  
- * @param {Object} plugin 
- * @api public
- */
-
-Binding.prototype.data = function(name, plugin) {
-  this.attr("data-" + name, plugin);
 };
 
 
@@ -91,7 +79,7 @@ Binding.prototype.applyBindings = function(node) {
   //dom element
   if (type === 1) return this.attrsBinding(node);
   // text node
-  if (type == 3) subs(node, this.model);
+  if (type === 3) subs(node, this.model);
 };
 
 
