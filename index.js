@@ -24,6 +24,23 @@ function Binding(model){
 
 
 /**
+ * Bind object as function.
+ * @api private
+ */
+
+function binder(obj) {
+  return function(el, expr) {
+    var formats = parser(expr);
+    for(var i = 0, l = formats.length; i < l; i++) {
+      var format = formats[i];
+      format.params.splice(0,0, el);
+      obj[format.method].apply(obj, format.params);
+    }
+  };
+}
+
+
+/**
  * Add binding by name
  * @param {String} name  
  * @param {Object} plugin 
@@ -31,6 +48,7 @@ function Binding(model){
  */
 
 Binding.prototype.add = function(name, plugin) {
+  if(typeof plugin === 'object') plugin = binder(plugin);
   this.plugins[name] = plugin;
 };
 
@@ -50,17 +68,7 @@ Binding.prototype.attrsBinding = function(node){
         content = attribute.nodeValue;
 
     if(plugin) {
-      if(typeof plugin === 'function'){
-        plugin.call(this.model, node, content);
-      } else {
-        //is it necessary...event delegation?
-        var formats = parser(content);
-        for(var j = 0, h = formats.length; j < h; j++) {
-          var format = formats[j];
-          format.params.splice(0,0, node);
-          plugin[format.method].apply(plugin, format.params);
-        }
-      }
+      plugin.call(this.model, node, content);
     } else if(indexOf(content, '{') > -1){
       subs(attribute, this.model);
     }
