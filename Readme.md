@@ -35,11 +35,11 @@ A binding can be either an attribute or a dataset attribute.
     label : 'bredele'
   });
   
-  binding.attr('link', function(node){
+  binding.add('link', function(node){
     node.setAttribute('href', 'http://githug.com/bredele');
   });
   
-  binding.data('class', function(node){
+  binding.add('data-class', function(node){
     node.className = 'bredele';
   });
   
@@ -76,7 +76,7 @@ Associate a binding to an object. Every function inside this object can be calle
     };
   };
 
-  binding.data('model', new Plugin({
+  binding.add('data-model', new Plugin({
     prop : 'http://github.com'
   }));
 
@@ -100,15 +100,11 @@ result:
 
   initialize a binding with a model object (right now a simple Object)
 
-### Binding#attr(name, binding) 
+### .add(name, binding) 
 
-  add attribute bindings (functions) by name
+  add attribute bindings (functions or objects) by name
 
-### Binding#data(name, binding) 
-
-  add dataset bindings (functions) by name
-
-### Binding#apply(node)
+### .apply(node)
 
   apply bindings on a give node
 
