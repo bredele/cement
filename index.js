@@ -33,7 +33,7 @@ function binder(obj) {
     var formats = parser(expr);
     for(var i = 0, l = formats.length; i < l; i++) {
       var format = formats[i];
-      format.params.splice(0,0, el);
+      format.params.splice(0, 0, el);
       obj[format.method].apply(obj, format.params);
     }
   };
@@ -59,18 +59,18 @@ Binding.prototype.add = function(name, plugin) {
  * @api private
  */
 
-Binding.prototype.attrsBinding = function(node){
-  var attributes = node.attributes;
+Binding.prototype.bindAttrs = function(node){
+  var attrs = node.attributes;
   //reverse loop doesn't work on IE...
-  for(var i = 0, l = attributes.length; i < l; i++){
-    var attribute = attributes[i],
-        plugin = this.plugins[attribute.nodeName],
-        content = attribute.nodeValue;
+  for(var i = 0, l = attrs.length; i < l; i++){
+    var attr = attrs[i],
+        plugin = this.plugins[attr.nodeName],
+        content = attr.nodeValue;
 
     if(plugin) {
       plugin.call(this.model, node, content);
     } else if(indexOf(content, '{') > -1){
-      subs(attribute, this.model);
+      subs(attr, this.model);
     }
   }
 };
@@ -82,10 +82,10 @@ Binding.prototype.attrsBinding = function(node){
  * @api private
  */
 
-Binding.prototype.applyBindings = function(node) {
+Binding.prototype.bind = function(node) {
   var type = node.nodeType;
   //dom element
-  if (type === 1) return this.attrsBinding(node);
+  if (type === 1) return this.bindAttrs(node);
   // text node
   if (type === 3) subs(node, this.model);
 };
@@ -99,7 +99,8 @@ Binding.prototype.applyBindings = function(node) {
 
 Binding.prototype.apply = function(node) {
   var nodes = node.childNodes;
-  this.applyBindings(node);
+  this.bind(node);
+  //use each?
   for (var i = 0, l = nodes.length; i < l; i++) {
     this.apply(nodes[i]);
   }
