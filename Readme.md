@@ -2,9 +2,21 @@
 
   > Attribute binding and data binding for modern browsers...and IE8 >
 
-Allows to bind a node attribute to a piece of JavaScript logic and to substitute 
-text nodes with model properties (live binding).
+`binding` is an automatic way of updating your HTML whenever the underlying data changes. It does one thing and do it right! It works well with your favorite framework and has been built to suit your development needs.
 
+gif
+
+`binding` is [highly extensible](https://github.com/bredele/binding#function-binding), like jQuery you can create your own plugins or reuse some others. The possibilities are limitless and the barrier is so low that you'll want to do it straight away. 
+
+Here's a list of available plugins:
+  - [list](https://github.com/bredele/list) create a list by instantiating a template once per item from a collection
+  - [event](https://github.com/bredele/event-plugin) listen or delegate events with automatic touch support
+  - [control](https://github.com/bredele/control-plugin) toggle or radio elements has never been so easy
+  - [stack](https://github.com/bredele/stack-plugin) create a stack of DOM elements for tab-based navigation
+  - [bind](https://github.com/bredele/bind-plugin) attribute double way binding
+  - [hidden](https://github.com/bredele/hidden-plugin) hide you dom element when the data changes
+  - [html](https://github.com/bredele/html-plugin) bind inner html to data
+  - [text](https://github.com/bredele/text-plugin) bind inner text to data
 
 ## Installation
 
