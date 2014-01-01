@@ -44,8 +44,10 @@ You can use variable substitution in every possible HTML and SVG attribute. Here
 ```html
 <span id="card" class="{github}">My github is <a href="http://github.com/{github}">{github}</a></span>
 ```
-  > `binding` is a factory but you can use the `new` operator as well.
-
+The result is:
+```html
+<span id="card" class="bredele">My github is <a href="http://github.com/bredele">bredele</a></span>
+```
 
 ## Plugins
 
