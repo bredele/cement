@@ -90,57 +90,88 @@ In the example above, we define a plugin called `data-nickname` that set the con
 ```html
 <span data-nickname="github">I am bredele</span>
 ```
+  > We advise you to use [store](https://github.com/bredele/store) as data model. Because store is based on an emitter, you'll be able to listen and react when the data changes. See [bind](https://github.com/bredele/bind-plugin) for a simple example using store events.
 
-### object binding
 
-Associate a binding to an object. Every function inside this object can be called by the binding.
+### object plugin
 
-```html
-<!-- el -->
-<a data-model="bind:innerHTML,prop"></a>'
-```
-
+We used to say one function (or unit) equal one functionality. Potentially, a plugin can be more complex than just a function. That's the reason why a plugin can also be a JavaScript object. An object will give you more structure and control over your plugin.
 
 ```js
-  var binding = new Binding();
-  var Plugin = function(model){
-    this.bind = function(el, attr, prop){
-      el[attr] = model.prop;
-    };
-  };
+var state = {
+  type: 'blog',
+  text: 'binding component is awesome'
+};
 
-  binding.add('data-model', new Plugin({
-    prop : 'http://github.com'
-  }));
-
-  binding.apply(el);
+binding(state)
+  .add('data-state', {
+    add: function(node, attr, data) {
+      if(state.type === 'blog') node[attr] = data;
+    },
+    hide: function(node) {
+     if(state.type === 'blog') el.className = 'hidden';
+    }
+  })
+  .apply(el);
 ```
-
-result:
+From the HTML markup, you can call a plugin method (here `add` and `remove`) with the following syntax `method:arg,arg`. You'll find the entire spec at this [link](https://github.com/bredele/plugin-parser).
 
 ```html
-<a data-model="bind:innerHTML,prop">http://github.com</a>
+<section>
+  <article data-state="add:innerHTML,text"></article>
+  <div data-state="hide"></div>
+</section>
 ```
 
-**Note:** 
-  - the first argument of the function is the DOM node associated to the binding.
-  - Object binding are more flexible and doesn't necessary need a model object.
-  - the binding are parsed according the following format (method:arg,arg,...)
+A plugin can be the backbone of your application, making easy to invent new HTML features and create reusable components.
+
+  > See [list](https://github.com/bredele/list) for a great example of object binding. List can be used as a plugin or as an isolated component. That's one of the benefit to have objects as binding.
+
+
+### Notes
+
+  `binding` can be used with SVG elements and makes easy to create dynamic and real time charts. However, SVG doesn't support custom attributes and you should prefix your plugins with `data-` (dataset attributes).
+
+  `binding` is not invasive and free from boilerplate: it lets you write the old plain JavaScript you like. It has been built though with some concepts such as inversion of controls and configuration because it allows you to control what is happening in your application, to easily test, maintain or reuse your plugins. Please keep that in mind when you'll write your own plugins.
+
+  `binding` is a work in progress. We will probably make the [object plugin](https://github.com/bredele/binding#object-plugin) spec better.
+
 
 ## API
 
 ### Binding#(model)
 
-  initialize a binding with a model object (right now a simple Object)
+  initialize a binding with a model object.
+
+  ```js
+  var binding = require('binding');
+  binding({});
+  ```
+  or
+
+  ```js
+  var Binding = require('binding');
+  
+  var binding = new Binding({});
+  ```  
 
 ### .add(name, binding) 
 
-  add attribute bindings (functions or objects) by name
+  add attribute bindings ([functions](https://github.com/bredele/binding#function-plugin) or [objects](https://github.com/bredele/binding#object-plugin)) by name
+
+  ```js
+  binding({}).add('bredele', plugin);  
+  ```
 
 ### .apply(node)
 
-  apply bindings on a give node
+  apply bindings on a give dom node
 
+  ```js
+  binding({})
+    .add('bredele', plugin)
+    .apply(document.body);  
+  ```
 
 ## License
 
