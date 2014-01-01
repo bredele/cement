@@ -22,14 +22,31 @@ Here's a list of available plugins:
 
     $ component install bredele/binding
 
-## Usage
+## Basics
 
-Initialize the component:
+An [example](https://github.com/bredele/binding/blob/master/examples/basics.html) is worth a thousand words.
+
+```html
+<span id="card">My github is {github}</span>
+```
+By default, `binding` applies variable substitution (`{variable}`) from the data model.
 
 ```js
-var Binding = require('binding');
-var binding = new Binding();
+var binding = require('binding'),
+    el = document.getElementById('card');
+
+binding({
+  github: 'bredele'
+}).apply(el);
 ```
+You can use variable substitution in every possible HTML and SVG attribute. Here's an other example:
+
+```html
+<span id="card" class="{github}">My github is <a href="http://github.com/{github}">{github}</a></span>
+```
+
+
+
 ### Function binding
 
 Associate a binding to a function.
