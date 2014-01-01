@@ -42,11 +42,15 @@ binding({
 You can use variable substitution in every possible HTML and SVG attribute. Here's an other example:
 
 ```html
-<span id="card" class="{github}">My github is <a href="http://github.com/{github}">{github}</a></span>
+<span id="card" class="{github}">
+  My github is <a href="http://github.com/{github}">{github}</a>
+</span>
 ```
 The result is:
 ```html
-<span id="card" class="bredele">My github is <a href="http://github.com/bredele">bredele</a></span>
+<span id="card" class="bredele">
+  My github is <a href="http://github.com/bredele">bredele</a>
+</span>
 ```
 
 ## Plugins
