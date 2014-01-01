@@ -6,7 +6,7 @@
 
 gif
 
-`binding` is [highly extensible](https://github.com/bredele/binding#function-binding), like jQuery you can create your own plugins or reuse some others. The possibilities are limitless and the barrier is so low that you'll want to do it straight away. 
+`binding` is [highly extensible](https://github.com/bredele/binding#plugins), like jQuery you can create your own plugins or reuse some others. The possibilities are limitless and the barrier is so low that you'll want to do it straight away. 
 
 Here's a list of available plugins:
   - [list](https://github.com/bredele/list) create a list by instantiating a template once per item from a collection
@@ -44,50 +44,54 @@ You can use variable substitution in every possible HTML and SVG attribute. Here
 ```html
 <span id="card" class="{github}">My github is <a href="http://github.com/{github}">{github}</a></span>
 ```
+  > `binding` is a factory but you can use the `new` operator as well.
 
 
+## Plugins
 
-### Function binding
-
-Associate a binding to a function.
-
-```html
-<!-- el -->
-<a link>{link}<span data-class>{label}</span></a>
-```
-
-A binding can be either an attribute or a dataset attribute.
+A `binding` plugin is simply a function or an object that we use to extend the HTML capabilities. It becomes more **expressive, configurable and dynamic**.
 
 ```js
-  var binding = new Binding({
-    link : 'Click to go on',
-    label : 'bredele'
-  });
-  
-  binding.add('link', function(node){
-    node.setAttribute('href', 'http://githug.com/bredele');
-  });
-  
-  binding.add('data-class', function(node){
-    node.className = 'bredele';
-  });
-  
-  binding.apply(el);
-
+binding()
+  .add('list', list)
+  .apply(el);
 ```
+You choose what plugin you want to use: **your application does just what you need and nothing more**.
 
-result:
 ```html
-<a href="http://githug.com/bredele" link>
-  Click to go on<span class="bredele" data-class>bredele</span>
-</a>>
+<ul list>
+  <li></li>
+</ul>
+```
+ > By given a name to your plugins, you avoid scope conflicts and you can reuse a plugin multiple times.
+
+
+### function plugin
+
+Writing a plugin is as **simple as writing a JavaScript function**.
+
+```js
+binding({
+    github: 'bredele'
+  })
+  .add('data-nickname', function(node, str) {
+    node.innerHTML = "I am " + this[str];
+  })
+  .apply(el);
+```
+A function plugin always has the dom element as first argument and its scope (`this`) is the data model you passed in the constructor.
+
+```html
+<span data-nickname="github"></span>
 ```
 
-**Note:** 
-  - the first argument of the function is the DOM node associated to the binding.
-  - the scope of the function is the object passed to the Binding constructor. 
+In the example above, we define a plugin called `data-nickname` that set the content of the dom element with the value of the attribute `data-nickname`. The result is:
 
-### Object binding
+```html
+<span data-nickname="github">I am bredele</span>
+```
+
+### object binding
 
 Associate a binding to an object. Every function inside this object can be called by the binding.
 
