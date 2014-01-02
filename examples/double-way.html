@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Basics</title>
+  <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>  
+  <style>
+    body {
+      font-family: 'Varela Round', sans-serif;
+      font-size: 1.4em;
+      color: #8c989e;
+    }
+    input {
+      font-size: 1em;
+      color: #333;
+      border:1px solid #ccc;
+      height: 32px;
+      padding:0 12px;
+      line-height: 26px;
+      outline:0;
+      width:160px;
+      margin-right: 40px;
+    }
+  </style>
+</head>
+<body>
+  💩
+  <section class="double">
+    <input type="text" input>
+    <span>{text}</span>
+  </section>
+  <script src="../build/build.js"></script>
+  <script>
+  var binding = require('binding'),
+      Store = require('store');
+
+  binding(new Store())
+  .add('input', function(node) {
+    var _this = this;
+    node.addEventListener('input', function() {
+      _this.set('text', node.value);
+    });
+  })
+  .apply(document.querySelector('.double'));
+
+  </script>
+</body>
+</html>

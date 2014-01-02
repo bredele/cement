@@ -4,7 +4,7 @@
 
 `binding` is an automatic way of updating your HTML whenever the underlying data changes. It does one thing and do it right! It works well with your favorite framework and has been built to suit your development needs.
 
-gif
+![binding](binding.gif)
 
 `binding` is [highly extensible](https://github.com/bredele/binding#plugins), like jQuery you can create your own plugins or reuse some others. The possibilities are limitless and the barrier is so low that you'll want to do it straight away. 
 
