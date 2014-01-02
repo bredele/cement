@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Basics</title>
+</head>
+<body>
+  <span id="card">My github is {github}</span>
+  <span id="card" class="{github}">My github is <a href="http://github.com/{github}">{github}</a></span>
+  <script src="../build/build.js"></script>
+  <script>
+  var binding = require('binding');
+
+  binding({
+    github: 'bredele'
+  }).apply(document.body);
+
+  </script>
+</body>
+</html>
