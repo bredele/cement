@@ -16,6 +16,7 @@ module.exports = Binding;
  */
 
 function Binding(model){
+  if(!(this instanceof Binding)) return new Binding(model);
   //TODO: mixin with store if not instanceof store
   this.model = model;
   //this.depth = -1;
