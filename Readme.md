@@ -1,6 +1,6 @@
 # binding
 
-  > Attribute binding and data binding for modern browsers...and IE8 >
+  > Data binding for modern browsers...and IE8 >
 
 `binding` is an automatic way of updating your HTML whenever the underlying data changes. It does one thing and do it right! It works well with your favorite framework and has been built to suit your development needs.
 
