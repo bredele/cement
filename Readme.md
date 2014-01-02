@@ -112,7 +112,7 @@ var state = {
 binding(state)
   .add('data-state', {
     add: function(node, attr, data) {
-      if(state.type === 'blog') node[attr] = data;
+      if(state.type === 'blog') node[attr] = state[data];
     },
     hide: function(node) {
      if(state.type === 'blog') el.className = 'hidden';
@@ -171,7 +171,7 @@ A plugin can be the backbone of your application, making easy to invent new HTML
 
 ### .apply(node)
 
-  apply bindings on a give dom node
+  apply bindings on a given dom node
 
   ```js
   binding({})
