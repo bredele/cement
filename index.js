@@ -51,6 +51,7 @@ function binder(obj) {
 Binding.prototype.add = function(name, plugin) {
   if(typeof plugin === 'object') plugin = binder(plugin);
   this.plugins[name] = plugin;
+  return this;
 };
 
 
