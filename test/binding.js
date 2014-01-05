@@ -10,7 +10,7 @@ describe("factory", function() {
     assert.equal(typeof obj.apply, 'function');
   });
 
-  it("new Bindin()", function() {
+  it("new Binding()", function() {
     var obj = new Binding();
     assert.equal(typeof obj.add, 'function');
     assert.equal(typeof obj.apply, 'function');
