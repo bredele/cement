@@ -5,9 +5,10 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "bredele/subs": "*",
+    "bredele/supplant": "*",
     "bredele/plugin-parser" : "*",
-    "component/indexof": "*"
+    "component/indexof": "*",
+    "component/props" : "*"
   },
   "development": {
     "bredele/store": "*",
@@ -17,6 +18,7 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": [
-    "index.js"
+    "index.js",
+    "lib/attr.js"
   ]
 }

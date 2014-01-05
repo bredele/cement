@@ -1,4 +1,4 @@
-var subs = require('subs'),
+var subs = require('./lib/attr'),
     indexOf = require('indexof'),
     parser = require('plugin-parser');
 
