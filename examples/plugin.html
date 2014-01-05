@@ -17,7 +17,7 @@
   });
   var binding = new Binding(store);
 
-  binding.data('text', function(el, expr){
+  binding.add('text', function(el, expr){
     el.innerHTML = this.get(expr);
     this.on('change ' + expr, function(val){
       el.innerHTML = val;
