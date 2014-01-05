@@ -23,12 +23,14 @@
   var store = new Store({
     number: index
   });
+
+  console.time('olivier');
   var binding = new Binding(store);
   binding.apply(document.body);
   store.compute('id', function(){
     return this.group + '' + this.number;
   });
-
+  console.timeEnd('olivier');
 
   setInterval(function(){
     store.set('number', ++index);

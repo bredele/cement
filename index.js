@@ -1,5 +1,4 @@
 var subs = require('./lib/attr'),
-    indexOf = require('indexof'),
     parser = require('plugin-parser');
 
 
@@ -61,17 +60,16 @@ Binding.prototype.add = function(name, plugin) {
  * @api private
  */
 
-Binding.prototype.bindAttrs = function(node){
+Binding.prototype.bindAttrs = function(node) {
   var attrs = node.attributes;
   //reverse loop doesn't work on IE...
-  for(var i = 0, l = attrs.length; i < l; i++){
+  for(var i = 0, l = attrs.length; i < l; i++) {
     var attr = attrs[i],
-        plugin = this.plugins[attr.nodeName],
-        content = attr.nodeValue;
+        plugin = this.plugins[attr.nodeName];
 
     if(plugin) {
-      plugin.call(this.model, node, content);
-    } else if(indexOf(content, '{') > -1){
+      plugin.call(this.model, node, attr.nodeValue);
+    } else {
       subs(attr, this.model);
     }
   }
