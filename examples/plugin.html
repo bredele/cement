@@ -17,14 +17,14 @@
   });
   var binding = new Binding(store);
 
-  binding.add('text', function(el, expr){
+  binding.add('data-text', function(el, expr){
     el.innerHTML = this.get(expr);
     this.on('change ' + expr, function(val){
       el.innerHTML = val;
     });
   });
 
-  binding.apply(document.body);
+  binding.apply(document.querySelector('.title'));
 
   setInterval(function(){
     store.set('number', ++index);
