@@ -5,14 +5,17 @@
   <title>Simple Live binding</title>
 </head>
 <body>
-  <h3 class="title">There is <span>{number}</span> connected users.</h3>
-  <p>
-    with the id : <span>{group}group{number}</span>
-  </p>
-  <a href="/ids/{number}">{id}</a>
-  <p>
-    And there is {group} groups of 2 users.
-  </p>
+  <!-- because binding read and trigger error on script...advanced expression :s -->
+  <div class="section">
+    <h3 class="title">There is <span>{number}</span> connected users.</h3>
+    <p>
+      with the id : <span>{group}group{number}</span>
+    </p>
+    <a href="/ids/{number}">{id}</a>
+    <p>
+      And there is {group} groups of 2 users.
+    </p>
+  </div>
 
   <script src="../build/build.js"></script>
   <script>
@@ -26,7 +29,7 @@
 
   console.time('olivier');
   var binding = new Binding(store);
-  binding.apply(document.body);
+  binding.apply(document.querySelector('.section'));
   store.compute('id', function(){
     return this.group + '' + this.number;
   });
