@@ -110,7 +110,7 @@ describe('single node data binding', function(){
 
       assert('beauty' === el.className);
       assert('http://github.com/bredele' === el.getAttribute('href'));
-      assert('bredele' === el.innerText);
+      assert('bredele' === el.innerHTML);
     });
 
   });
@@ -244,7 +244,7 @@ describe('data-set plugin', function(){
     });
     binding.apply(el);
     assert('name' === value);
-    assert(node.isEqualNode(el));
+    assert.equal(node, el);
   });
 });
 
