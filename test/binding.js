@@ -182,7 +182,7 @@ describe('single node data binding', function(){
 
       var binding = new Binding();
       var Plugin = function(){
-        this.default = function(el){
+        this.main = function(el){
           el.value = 'bredele';
         };
       };
