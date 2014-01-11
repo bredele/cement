@@ -5,15 +5,17 @@
   <title>Basics</title>
 </head>
 <body>
-  <span id="card">My github is {github}</span>
-  <span id="card" class="{github}">My github is <a href="http://github.com/{github}">{github}</a></span>
+  <div id="example">
+    <span id="card">My github is {github}</span>
+    <span id="card" class="{github}">My github is <a href="http://github.com/{github}">{github}</a></span>
+  </div>
   <script src="../build/build.js"></script>
   <script>
   var binding = require('binding');
 
   binding({
     github: 'bredele'
-  }).apply(document.body);
+  }).apply(document.getElementById('example'));
 
   </script>
 </body>
