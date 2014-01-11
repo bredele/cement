@@ -69,7 +69,7 @@ You choose what plugin you want to use: **your application does just what you ne
   <li></li>
 </ul>
 ```
- > By given a name to your plugins, you avoid scope conflicts and you can reuse a plugin multiple times.
+ > By giving a name to your plugins, you avoid scope conflicts and you can reuse a plugin multiple times.
 
 
 ### function plugin
