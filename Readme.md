@@ -27,6 +27,7 @@ standalone:
 ```html
 <script src="binding.js"></script>
 ```
+
 ## Basics
 
 An [example](https://github.com/bredele/binding/blob/master/examples/basics.html) is worth a thousand words.
