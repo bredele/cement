@@ -2,7 +2,7 @@
 
   > Data binding for modern browsers...and IE8 >
 
-`binding` is an automatic way of updating your HTML whenever the underlying data changes. It does one thing and do it right! It works well with your favorite framework and has been built to suit your development needs.
+`binding` is an automatic way of updating your HTML whenever the underlying data changes. It does one thing and does it right! It works well with your favorite framework and has been built to suit your development needs.
 
 ![binding](binding.gif)
 
@@ -75,7 +75,7 @@ You choose what plugin you want to use: **your application does just what you ne
   <li></li>
 </ul>
 ```
- > By given a name to your plugins, you avoid scope conflicts and you can reuse a plugin multiple times.
+ > By giving a name to your plugins, you avoid scope conflicts and you can reuse a plugin multiple times.
 
 
 ### function plugin
