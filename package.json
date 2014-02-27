@@ -1,14 +1,14 @@
 {
   "name": "data-binding",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Data attribute binding and interpolation",
   "main": "index.js",
-  "directories": {
-    "example": "examples"
-  },
   "scripts": {
     "test": "zuul -- test/*.js",
     "test-local": "zuul --local -- test/*.js"
+  },
+  "browser": {
+    "store": "store-component"
   },
   "dependencies": {
     "supplant": "0.0.2",
@@ -20,9 +20,6 @@
     "mocha": "~1.17.1",
     "zuul": "~1.5.4",
     "domify": "~1.2.2"
-  },
-  "browser": {
-    "store": "store-component"
   },
   "repository": {
     "type": "git",
