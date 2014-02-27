@@ -1,35 +1,75 @@
-var subs = require('./lib/attr'),
-    Store = require('store'),
-    parser = require('plugin-parser');
+var Store = require('store'),
+    trim = require('trim'),
+    indexOf = require('indexof'),
+    supplant = require('supplant');
 
 
 /**
- * Expose 'data binding'
+ * Expose 'Binding'
  */
 
 module.exports = Binding;
 
 
 /**
- * Intitialize a binding.
- * @param {Object} model 
+ * Binding constructor.
+ * 
+ * @api public
  */
 
-function Binding(model){
+function Binding(model) {
   if(!(this instanceof Binding)) return new Binding(model);
-  //TODO: remove store of dependencies
-  this.model = new Store(model);
+  this.data(model);
   this.plugins = {};
+  this.listeners = [];
 }
+
+//TODO: this is for view, instead doing this.binding.model = new Store();
+//should we keep this or not?
+
+Binding.prototype.data = function(data) {
+  this.model = new Store(data);
+  return this;
+};
+
+
+//todo: make better parser and more efficient
+function parser(str) {
+    //str = str.replace(/ /g,'');
+    var phrases = str ? str.split(';') : ['main'];
+    var results = [];
+    for(var i = 0, l = phrases.length; i < l; i++) {
+      var expr = phrases[i].split(':');
+
+      var params = [];
+      var name = expr[0];
+
+      if(expr[1]) {
+        var args = expr[1].split(',');
+        for(var j = 0, h = args.length; j < h; j++) {
+          params.push(trim(args[j]));
+        }
+      } else {
+        name = 'main'; //doesn't do anything
+      }
+
+      results.push({
+        method: trim(expr[0]),
+        params: params
+      });
+    }
+    return results;
+  }
 
 
 /**
  * Bind object as function.
+ * 
  * @api private
  */
 
 function binder(obj) {
-  return function(el, expr) {
+  var fn = function(el, expr) {
     var formats = parser(expr);
     for(var i = 0, l = formats.length; i < l; i++) {
       var format = formats[i];
@@ -37,13 +77,20 @@ function binder(obj) {
       obj[format.method].apply(obj, format.params);
     }
   };
+  //TODO: find something better
+  fn.destroy = function() {
+    obj.destroy && obj.destroy();
+  };
+  return fn;
 }
 
 
 /**
  * Add binding by name
+ * 
  * @param {String} name  
  * @param {Object} plugin 
+ * @return {Binding}
  * @api public
  */
 
@@ -55,14 +102,40 @@ Binding.prototype.add = function(name, plugin) {
 
 
 /**
+ * Substitue node text with data.
+ * 
+ * @param  {HTMLElement} node  type 3
+ * @param  {Store} store 
+ * @api private
+ */
+
+Binding.prototype.subs = function(node, store) {
+  var text = node.nodeValue;
+  if(!~ indexOf(text, '{')) return;
+
+  var exprs = supplant.attrs(text),
+      handle = function() {
+        //should we cache a function?
+        node.nodeValue = supplant(text, store.data);
+      };
+
+  handle();
+
+  for(var l = exprs.length; l--;) {
+    this.listeners.push(store.on('change ' + exprs[l], handle));
+  }
+};
+
+
+/**
  * Attribute binding.
+ * 
  * @param  {HTMLElement} node 
  * @api private
  */
 
-Binding.prototype.bindAttrs = function(node) {
+Binding.prototype.attrs = function(node) {
   var attrs = node.attributes;
-  //reverse loop doesn't work on IE...
   for(var i = 0, l = attrs.length; i < l; i++) {
     var attr = attrs[i],
         plugin = this.plugins[attr.nodeName];
@@ -70,38 +143,86 @@ Binding.prototype.bindAttrs = function(node) {
     if(plugin) {
       plugin.call(this.model, node, attr.nodeValue);
     } else {
-      subs(attr, this.model);
+      this.subs(attr, this.model);
     }
   }
 };
 
 
 /**
- * Apply bindings on a single node
+ * Apply binding's on a single node
+ * 
  * @param  {DomElement} node 
  * @api private
  */
 
-Binding.prototype.bind = function(node) {
+Binding.prototype.type = function(node) {
   var type = node.nodeType;
   //dom element
-  if (type === 1) return this.bindAttrs(node);
+  if (type === 1) return this.attrs(node);
   // text node
-  if (type === 3) subs(node, this.model);
+  if (type === 3) this.subs(node, this.model);
 };
 
 
 /**
  * Apply bindings on nested DOM element.
- * @param  {DomElement} node 
+ * 
+ * @param  {DomElement} node
+ * @return {Binding}
  * @api public
  */
 
-Binding.prototype.apply = function(node) {
+Binding.prototype.scan = function(node, bool) {
+  if(bool) return this.query(node);
   var nodes = node.childNodes;
-  this.bind(node);
-  //use each?
+  this.type(node);
   for (var i = 0, l = nodes.length; i < l; i++) {
-    this.apply(nodes[i]);
+    this.scan(nodes[i]);
+  }
+  return this;
+};
+
+
+/**
+ * Query plugins and execute them.
+ * 
+ * @param  {Element} el 
+ * @api private
+ */
+
+Binding.prototype.query = function(el) {
+  //TODO: refactor
+  var parent = el.parentElement;
+  if(!parent) {
+    parent = document.createDocumentFragment();
+    parent.appendChild(el);
+  }
+  for(var name in this.plugins) {
+    var nodes = parent.querySelectorAll('[' + name + ']');
+    for(var i = 0, l = nodes.length; i < l; i++) {
+      var node = nodes[i];
+      this.plugins[name].call(this.model, node, node.getAttribute(name));
+    }
+  }
+};
+
+
+/**
+ * Destroy binding's plugins and unsubscribe
+ * to emitter.
+ * 
+ * @api public
+ */
+
+Binding.prototype.remove = function() {
+  for(var l = this.listeners.length; l--;) {
+    var listener = this.listeners[l];
+    this.model.off(listener[0],listener[1]);
+  }
+
+  for(var name in this.plugins) {
+    var plugin = this.plugins[name];
+    plugin.destroy && plugin.destroy();
   }
 };
