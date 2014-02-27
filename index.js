@@ -35,31 +35,31 @@ Binding.prototype.data = function(data) {
 
 //todo: make better parser and more efficient
 function parser(str) {
-    //str = str.replace(/ /g,'');
-    var phrases = str ? str.split(';') : ['main'];
-    var results = [];
-    for(var i = 0, l = phrases.length; i < l; i++) {
-      var expr = phrases[i].split(':');
+  //str = str.replace(/ /g,'');
+  var phrases = str ? str.split(';') : ['main'];
+  var results = [];
+  for(var i = 0, l = phrases.length; i < l; i++) {
+    var expr = phrases[i].split(':');
 
-      var params = [];
-      var name = expr[0];
+    var params = [];
+    var name = expr[0];
 
-      if(expr[1]) {
-        var args = expr[1].split(',');
-        for(var j = 0, h = args.length; j < h; j++) {
-          params.push(trim(args[j]));
-        }
-      } else {
-        name = 'main'; //doesn't do anything
+    if(expr[1]) {
+      var args = expr[1].split(',');
+      for(var j = 0, h = args.length; j < h; j++) {
+        params.push(trim(args[j]));
       }
-
-      results.push({
-        method: trim(expr[0]),
-        params: params
-      });
+    } else {
+      name = 'main'; //doesn't do anything
     }
-    return results;
+
+    results.push({
+      method: trim(expr[0]),
+      params: params
+    });
   }
+  return results;
+}
 
 
 /**
@@ -109,7 +109,7 @@ Binding.prototype.add = function(name, plugin) {
  * @api private
  */
 
-Binding.prototype.subs = function(node, store) {
+Binding.prototype.text = function(node, store) {
   var text = node.nodeValue;
   if(!~ indexOf(text, '{')) return;
 
@@ -128,40 +128,31 @@ Binding.prototype.subs = function(node, store) {
 
 
 /**
- * Attribute binding.
- * 
- * @param  {HTMLElement} node 
- * @api private
- */
-
-Binding.prototype.attrs = function(node) {
-  var attrs = node.attributes;
-  for(var i = 0, l = attrs.length; i < l; i++) {
-    var attr = attrs[i],
-        plugin = this.plugins[attr.nodeName];
-
-    if(plugin) {
-      plugin.call(this.model, node, attr.nodeValue);
-    } else {
-      this.subs(attr, this.model);
-    }
-  }
-};
-
-
-/**
  * Apply binding's on a single node
  * 
  * @param  {DomElement} node 
  * @api private
  */
 
-Binding.prototype.type = function(node) {
+Binding.prototype.bind = function(node) {
   var type = node.nodeType;
   //dom element
-  if (type === 1) return this.attrs(node);
+  if (type === 1) {
+    var attrs = node.attributes;
+    for(var i = 0, l = attrs.length; i < l; i++) {
+      var attr = attrs[i],
+          plugin = this.plugins[attr.nodeName];
+
+      if(plugin) {
+        plugin.call(this.model, node, attr.nodeValue);
+      } else {
+        this.text(attr, this.model);
+      }
+    }
+    return;
+  }
   // text node
-  if (type === 3) this.subs(node, this.model);
+  if (type === 3) this.text(node, this.model);
 };
 
 
@@ -176,7 +167,7 @@ Binding.prototype.type = function(node) {
 Binding.prototype.scan = function(node, bool) {
   if(bool) return this.query(node);
   var nodes = node.childNodes;
-  this.type(node);
+  this.bind(node);
   for (var i = 0, l = nodes.length; i < l; i++) {
     this.scan(nodes[i]);
   }
