@@ -1,30 +1,42 @@
 {
   "name": "data-binding",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Data attribute binding and interpolation",
   "main": "index.js",
   "directories": {
-    "test": "test"
+    "example": "examples"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "supplant": "0.0.2",
+    "store-component": "~0.1.2",
+    "indexof": "0.0.1",
+    "trim": "0.0.1"
+  },
+  "devDependencies": {
+    "mocha": "~1.17.1",
+    "zuul": "~1.5.4"
+  },
+  "browser": {
+    "store" : "store-component"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/bredele/data-binding.git"
+    "url": "git://github.com/bredele/binding.git"
   },
   "keywords": [
-    "dataset",
+    "mvvm",
+    "model",
     "binding",
+    "data",
+    "dataset",
     "interpolation"
   ],
-  "author": "Olivier Wietrich",
-  "license": "BSD",
-  "readmeFilename": "Readme.md",
+  "author": "Olivier Wietrich <olivier.wietrich@gmail.com> (http://github.com/bredele)",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bredele/data-binding/issues"
-  },
-  "devDependencies": {
-    "mocha": "~1.12.0"
+    "url": "https://github.com/bredele/binding/issues"
   }
 }
