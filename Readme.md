@@ -1,4 +1,5 @@
 # binding
+[![Build Status](https://travis-ci.org/bredele/binding.png?branch=master)](https://travis-ci.org/bredele/binding)
 
   > Data binding for modern browsers...and IE8 >
 
