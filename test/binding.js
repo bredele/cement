@@ -1,7 +1,7 @@
 var assert = require('assert'),
     domify = require('domify'),
     Store = require('store'),
-    Binding = require('binding');
+    Binding = require('..');
 
 
 describe("Binding", function() {
@@ -386,19 +386,5 @@ describe("Binding", function() {
     });
 
   });
-
-  describe("issues fixes", function() {
-
-    // it("displays empty string for undefined store attributes #12", function() {
-    //  var el = domify('<span>my name is {name}</span>');
-    //  Binding()
-    //    .apply(el);
-
-    //  assert.equal(el.innerHTML, 'my name is ');
-    // });
-    
-    
-  });
-  
 
 });
