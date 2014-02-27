@@ -111,6 +111,7 @@ Binding.prototype.add = function(name, plugin) {
 
 Binding.prototype.text = function(node, store) {
   var text = node.nodeValue;
+  //we should do {{ but it doesn't work on ie
   if(!~ indexOf(text, '{')) return;
 
   var exprs = supplant.attrs(text),
