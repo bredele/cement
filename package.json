@@ -7,7 +7,8 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "zuul -- test/*.js",
+    "test-local": "zuul --local -- test/*.js"
   },
   "dependencies": {
     "supplant": "0.0.2",
@@ -17,10 +18,11 @@
   },
   "devDependencies": {
     "mocha": "~1.17.1",
-    "zuul": "~1.5.4"
+    "zuul": "~1.5.4",
+    "domify": "~1.2.2"
   },
   "browser": {
-    "store" : "store-component"
+    "store": "store-component"
   },
   "repository": {
     "type": "git",
