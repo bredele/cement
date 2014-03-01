@@ -6,8 +6,8 @@
 </head>
 <body>
   <div id="example">
-    <span id="card">My github is {github}</span>
-    <span id="card" class="{github}">My github is <a href="http://github.com/{github}">{github}</a></span>
+    <span id="card">My github is {{github}}</span>
+    <span id="card" class="{{github}}">My github is <a href="http://github.com/{{github}}">{{github}}</a></span>
   </div>
   <script src="../build/build.js"></script>
   <script>
@@ -15,7 +15,7 @@
 
   binding({
     github: 'bredele'
-  }).apply(document.getElementById('example'));
+  }).scan(document.getElementById('example'));
 
   </script>
 </body>

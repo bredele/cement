@@ -27,7 +27,7 @@
   💩
   <section class="double">
     <input type="text" input>
-    <span>{text}</span>
+    <span>{{text}}</span>
   </section>
   <script src="../build/build.js"></script>
   <script>
@@ -41,7 +41,7 @@
       _this.set('text', node.value);
     });
   })
-  .apply(document.querySelector('.double'));
+  .scan(document.querySelector('.double'));
 
   </script>
 </body>

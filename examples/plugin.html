@@ -24,7 +24,7 @@
     });
   });
 
-  binding.apply(document.querySelector('.title'));
+  binding.scan(document.querySelector('.title'));
 
   setInterval(function(){
     store.set('number', ++index);

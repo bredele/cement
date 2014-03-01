@@ -17,16 +17,16 @@
   var Binding = require('binding');
 
   var binding = new Binding();
-  binding.attr('action', function(node){
+  binding.add('action', function(node){
     node.addEventListener('submit', function(ev){
       alert('valid?');
     });
   });
-  binding.attr('required', function(node, name){
+  binding.add('required', function(node, name){
     console.log(name);
   });
 
-  binding.apply(document.querySelector('.form'));
+  binding.scan(document.querySelector('.form'));
 
   </script>
 </body>

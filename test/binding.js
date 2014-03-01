@@ -270,6 +270,15 @@ describe("Binding", function() {
       assert('bruno' === el.innerHTML);
     });
 
+    it('should display an empty string for undefined variables', function() {
+      var el = domify('<span>{{name}}</span>');
+      var store = new Store();
+      var binding = new Binding(store);
+      binding.scan(el);
+      assert.equal(el.innerHTML, '');
+
+    });
+
     it('multiple attributes on different nodes', function() {
       var el = domify('<a href={{link}}>{{label}}</a>');
       var store = new Store({
