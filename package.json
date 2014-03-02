@@ -11,10 +11,10 @@
     "store": "store-component"
   },
   "dependencies": {
-    "supplant": "0.0.2",
     "store-component": "~0.1.2",
     "indexof": "0.0.1",
-    "trim": "0.0.1"
+    "trim": "0.0.1",
+    "supplant": "0.0.4"
   },
   "devDependencies": {
     "mocha": "~1.17.1",

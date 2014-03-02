@@ -327,6 +327,30 @@ describe("Binding", function() {
       assert('olivier' === el.firstChild.innerHTML);
     });
 
+    describe("expressions", function() {
+      it("should render inteprolation expressions", function() {
+        var el = domify('<span>{{ label.length }}</span>');
+        var store = new Store({
+          label : 'label'
+        });
+        var binding = new Binding(store);
+        binding.scan(el);
+        assert.equal(el.innerHTML, '5');
+      });
+
+      it('should listen changes on expressions', function() {
+        var el = domify('<span>{{ label.length }}</span>');
+        var store = new Store({
+          label : 'label'
+        });
+        var binding = new Binding(store);
+        binding.scan(el);
+        store.set('label', 'bredele');
+        assert.equal(el.innerHTML, '7');
+      });
+    });
+    
+
   });
 
   describe("Query", function() {
