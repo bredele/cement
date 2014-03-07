@@ -255,7 +255,7 @@ describe("Binding", function() {
   });
 
 
-  describe('live binding', function() {
+  describe('interpolation', function() {
 
     it('single attribute', function() {
       var el = domify('<span>{{name}}</span>');
@@ -350,7 +350,58 @@ describe("Binding", function() {
       });
     });
     
+    describe("filters", function() {
 
+      var el, store, binding;
+      beforeEach(function() {
+        el = domify('<span>{{ name }| hello }</span>');
+        store = new Store({
+          name: 'bredele'
+        });
+        binding = new Binding(store);
+      });
+
+      it('should filter variable', function(done) {
+        binding.subs.filter('hello', function(str) {
+          if(str === 'bredele') done();
+        });
+        binding.scan(el);
+      });
+
+      it("should apply filter", function() {
+        binding.subs.filter('hello', function(str) {
+          return str.toUpperCase();
+        });
+        binding.scan(el);
+        assert.equal(el.innerHTML, 'BREDELE');
+      });
+
+      it('should chain filters', function() {
+        el = domify('<span>{{ name }| hello | world }</span>');
+
+        binding.subs.filter('hello', function(str) {
+          return str.toUpperCase();
+        });
+        binding.subs.filter('world', function(str) {
+          return 'hello ' + str + '!';
+        });
+        binding.scan(el);
+        assert.equal(el.innerHTML, 'hello BREDELE!');
+      });
+
+      it('should update expression if store changes', function() {
+        binding.subs.filter('hello', function(str) {
+          return str.toUpperCase();
+        });
+        binding.scan(el);
+        store.set('name', 'brick');
+        assert.equal(el.innerHTML, 'BRICK');
+      });
+
+      it('should pass arguments to filters');
+      
+    });
+    
   });
 
   describe("Query", function() {

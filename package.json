@@ -1,6 +1,6 @@
 {
   "name": "data-binding",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Data attribute binding and interpolation",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "store-component": "~0.1.2",
     "indexof": "0.0.1",
     "trim": "0.0.1",
-    "supplant": "0.0.4"
+    "supplant": "~0.1.2"
   },
   "devDependencies": {
     "mocha": "~1.17.1",

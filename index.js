@@ -1,7 +1,7 @@
 var Store = require('store'),
     trim = require('trim'),
     indexOf = require('indexof'),
-    supplant = require('supplant');
+    Supplant = require('supplant');
 
 
 /**
@@ -21,7 +21,9 @@ function Binding(model) {
   if(!(this instanceof Binding)) return new Binding(model);
   this.data(model);
   this.plugins = {};
+  this.subs = new Supplant();
   this.listeners = [];
+  this.filters = {};
 }
 
 //TODO: this is for view, instead doing this.binding.model = new Store();
@@ -101,6 +103,11 @@ Binding.prototype.add = function(name, plugin) {
 };
 
 
+Binding.prototype.filter = function(name, fn) {
+  this.filters[name] = fn;
+  return this;
+};
+
 /**
  * Substitue node text with data.
  * 
@@ -110,21 +117,24 @@ Binding.prototype.add = function(name, plugin) {
  */
 
 Binding.prototype.text = function(node, store) {
-  var text = node.nodeValue;
+  var text = node.nodeValue,
+      _this = this;
   //we should do {{ but it doesn't work on ie
   if(!~ indexOf(text, '{')) return;
 
-  var exprs = supplant.attrs(text),
+  var exprs = this.subs.props(text),
       handle = function() {
         //should we cache a function?
-        node.nodeValue = supplant(text, store.data);
+        node.nodeValue = _this.subs.text(text, store.data);
       };
 
   handle();
 
+console.log(exprs, text);
   for(var l = exprs.length; l--;) {
     this.listeners.push(store.on('change ' + exprs[l], handle));
   }
+
 };
 
 

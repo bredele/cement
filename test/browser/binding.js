@@ -255,7 +255,7 @@ describe("Binding", function() {
   });
 
 
-  describe('live binding', function() {
+  describe('interpolation', function() {
 
     it('single attribute', function() {
       var el = domify('<span>{{name}}</span>');
@@ -268,6 +268,15 @@ describe("Binding", function() {
 
       store.set('name', 'bruno');
       assert('bruno' === el.innerHTML);
+    });
+
+    it('should display an empty string for undefined variables', function() {
+      var el = domify('<span>{{name}}</span>');
+      var store = new Store();
+      var binding = new Binding(store);
+      binding.scan(el);
+      assert.equal(el.innerHTML, '');
+
     });
 
     it('multiple attributes on different nodes', function() {
@@ -340,7 +349,59 @@ describe("Binding", function() {
         assert.equal(el.innerHTML, '7');
       });
     });
+    
+    describe("filters", function() {
 
+      var el, store, binding;
+      beforeEach(function() {
+        el = domify('<span>{{ name }| hello }</span>');
+        store = new Store({
+          name: 'bredele'
+        });
+        binding = new Binding(store);
+      });
+
+      it('should filter variable', function(done) {
+        binding.subs.filter('hello', function(str) {
+          if(str === 'bredele') done();
+        });
+        binding.scan(el);
+      });
+
+      it("should apply filter", function() {
+        binding.subs.filter('hello', function(str) {
+          return str.toUpperCase();
+        });
+        binding.scan(el);
+        assert.equal(el.innerHTML, 'BREDELE');
+      });
+
+      it('should chain filters', function() {
+        el = domify('<span>{{ name }| hello | world }</span>');
+
+        binding.subs.filter('hello', function(str) {
+          return str.toUpperCase();
+        });
+        binding.subs.filter('world', function(str) {
+          return 'hello ' + str + '!';
+        });
+        binding.scan(el);
+        assert.equal(el.innerHTML, 'hello BREDELE!');
+      });
+
+      it('should update expression if store changes', function() {
+        binding.subs.filter('hello', function(str) {
+          return str.toUpperCase();
+        });
+        binding.scan(el);
+        store.set('name', 'brick');
+        assert.equal(el.innerHTML, 'BRICK');
+      });
+
+      it('should pass arguments to filters');
+      
+    });
+    
   });
 
   describe("Query", function() {
@@ -386,27 +447,29 @@ describe("Binding", function() {
       assert.equal(plugin.called, true);
     });
 
-    it("should unsubscribe to store", function() {
-      var el = domify('<span>{{label}}</span>'),
-      store = new Store({
-        label: 'maple'
-      }),
-      changed = false;
+    it("should unsubscribe to store");
+    
+    // it("should unsubscribe to store", function() {
+    //   var el = domify('<span>{{label}}</span>'),
+    //   store = new Store({
+    //     label: 'maple'
+    //   }),
+    //   changed = false;
 
-      store.on('change github', function() {
-        changed = true;
-      });
+    //   store.on('change github', function() {
+    //     changed = true;
+    //   });
 
-      Binding(store)
-      .scan(el)
-      .remove();
+    //   Binding(store)
+    //   .scan(el)
+    //   .remove();
 
-      store.set('label', 'bredele');
-      assert.equal(el.innerHTML, 'maple');
+    //   store.set('label', 'bredele');
+    //   assert.equal(el.innerHTML, 'maple');
 
-      store.set('github', 'http://github.com/leafs');
-      assert.equal(changed, true);
-    });
+    //   store.set('github', 'http://github.com/leafs');
+    //   assert.equal(changed, true);
+    // });
 
   });
 
