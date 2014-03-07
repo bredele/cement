@@ -130,7 +130,6 @@ Binding.prototype.text = function(node, store) {
 
   handle();
 
-console.log(exprs, text);
   for(var l = exprs.length; l--;) {
     this.listeners.push(store.on('change ' + exprs[l], handle));
   }

@@ -1,6 +1,6 @@
 {
   "name": "data-binding",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Data attribute binding and interpolation",
   "main": "index.js",
   "scripts": {
