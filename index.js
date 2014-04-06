@@ -1,7 +1,7 @@
-var Store = require('store'),
-    trim = require('trim'),
-    indexOf = require('indexof'),
-    Supplant = require('supplant');
+var Store = require('bredele-store');
+var trim = require('trim');
+var indexOf = require('indexof');
+var Supplant = require('supplant');
 
 
 /**

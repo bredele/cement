@@ -1,7 +1,7 @@
-var assert = require('assert'),
-    domify = require('domify'),
-    Store = require('store'),
-    Binding = require('binding');
+var assert = require('assert');
+var domify = require('domify');
+var Store = require('bredele-store');
+var Binding = require('binding');
 
 
 describe("Binding", function() {

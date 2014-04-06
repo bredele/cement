@@ -1,6 +1,6 @@
 {
   "name": "data-binding",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Data attribute binding and interpolation",
   "main": "index.js",
   "scripts": {
@@ -8,13 +8,13 @@
     "test-local": "zuul --local -- test/*.js"
   },
   "browser": {
-    "store": "store-component"
+    "store": "bredele-store"
   },
   "dependencies": {
-    "store-component": "~0.1.2",
+    "bredele-store": "^0.2.0",
     "indexof": "0.0.1",
-    "trim": "0.0.1",
-    "supplant": "~0.1.2"
+    "supplant": "~0.1.2",
+    "trim": "0.0.1"
   },
   "devDependencies": {
     "mocha": "~1.17.1",
