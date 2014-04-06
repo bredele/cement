@@ -1,4 +1,4 @@
-var Store = require('bredele-store');
+var Store = require('datastore');
 var trim = require('trim');
 var indexOf = require('indexof');
 var Supplant = require('supplant');

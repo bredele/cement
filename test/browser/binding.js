@@ -1,6 +1,6 @@
 var assert = require('assert');
 var domify = require('domify');
-var Store = require('bredele-store');
+var Store = require('datastore');
 var Binding = require('binding');
 
 

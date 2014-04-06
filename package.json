@@ -7,11 +7,8 @@
     "test": "zuul -- test/*.js",
     "test-local": "zuul --local -- test/*.js"
   },
-  "browser": {
-    "store": "bredele-store"
-  },
   "dependencies": {
-    "bredele-store": "^0.2.0",
+    "datastore": "^1.0.0",
     "indexof": "0.0.1",
     "supplant": "~0.1.2",
     "trim": "0.0.1"

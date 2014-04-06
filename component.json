@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "bredele/supplant": "*",
-    "bredele/store" : "*",
+    "bredele/datastore" : "*",
     "component/indexof": "*",
     "component/trim": "*"    
   },
