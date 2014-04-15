@@ -9,22 +9,22 @@
 
   <script src="../build/build.js"></script>
   <script>
-  var Binding = require('cement');
+  var cement = require('cement');
   var Store = require('datastore');
   var index = 2;
   var store = new Store({
     number: index
   });
-  var binding = new Binding(store);
+  var view = cement(store);
 
-  binding.add('data-text', function(el, expr){
+  view.add('data-text', function(el, expr){
     el.innerHTML = this.get(expr);
     this.on('change ' + expr, function(val){
       el.innerHTML = val;
     });
   });
 
-  binding.scan(document.querySelector('.title'));
+  view.scan(document.querySelector('.title'));
 
   setInterval(function(){
     store.set('number', ++index);

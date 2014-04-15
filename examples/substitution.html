@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Simple Live binding</title>
+  <title>Simple Live substitution</title>
 </head>
 <body>
   <!-- because binding read and trigger error on script...advanced expression :s -->
@@ -19,7 +19,7 @@
 
   <script src="../build/build.js"></script>
   <script>
-  var Binding = require('cement');
+  var cement = require('cement');
   var Store = require('datastore');
   var index = 2;
   var group = 0;
@@ -27,9 +27,8 @@
     number: index
   });
 
-  console.time('olivier');
-  var binding = new Binding(store);
-  binding.scan(document.querySelector('.section'));
+  var view = cement(store);
+  view.scan(document.querySelector('.section'));
   store.compute('id', function(){
     return this.group + '' + this.number;
   });

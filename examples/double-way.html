@@ -31,17 +31,17 @@
   </section>
   <script src="../build/build.js"></script>
   <script>
-  var cement = require('cement'),
-      Store = require('datastore');
+  var cement = require('cement');
+  var Store = require('datastore');
 
   cement(new Store())
-  .add('input', function(node) {
-    var _this = this;
-    node.addEventListener('input', function() {
-      _this.set('text', node.value);
-    });
-  })
-  .scan(document.querySelector('.double'));
+    .add('input', function(node) {
+      var _this = this;
+      node.addEventListener('input', function() {
+        _this.set('text', node.value);
+      });
+    })
+    .scan(document.querySelector('.double'));
 
   </script>
 </body>
