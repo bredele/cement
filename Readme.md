@@ -46,7 +46,7 @@ standalone:
 
 ### Interpolation
 
-  Cement uses [supplant](http://github.com/bredele/supplant) which allows you to substitue expressions (enclosed in `{{ }}` braces) with your data. Whenever the data changes, the expression is updated.
+  Cement uses [supplant](http://github.com/bredele/supplant) which allows you to substitute expressions (enclosed in `{{ }}` braces) with your data. Whenever the data changes, the expression is updated.
 
 ```html
 <span class="{{ type }}">My name is {{ name }}</span>
@@ -129,7 +129,7 @@ var view1 = cement()
   .scan(view2); 
 ```
 
-  Moreover, it makes your code more expressive and allows you to export and reuse plugins easily.
+  It makes your code more expressive and allows you to export and reuse plugins easily.
 
 
 ## API
@@ -143,6 +143,15 @@ var view1 = cement()
   var cement = require('cement');
   cement(obj);
   ```
+### .data(obj)
+
+  Set cement model.
+
+  ```js
+  cement().data(obj);
+  ```
+
+  A cement model is based on [datastore](http://github.com/bredele/datastore), an extensible and obervable model which works on both client and server sides.
 
 ### .add(name, binding) 
 
