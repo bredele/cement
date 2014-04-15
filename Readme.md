@@ -1,188 +1,186 @@
-# binding
+# Cement
 [![Build Status](https://travis-ci.org/bredele/binding.png?branch=master)](https://travis-ci.org/bredele/binding)
 
-  > Data binding for modern browsers...and IE8 >
+  Mixed cement with HTML and JavaScript to obtain a flexible and insanely fast live binding.
 
-`binding` is an automatic way of updating your HTML whenever the underlying data changes. It does one thing and does it right! It works well with your favorite framework and has been built to suit your development needs.
 
-![binding](binding.gif)
+  Cement is an automatic way of updating your HTML whenever the underlying data changes. It works on all major browsers (IE8 included) and is incredibly easy to learn. It's the soft glue that hardens your applications.
 
-`binding` is [highly extensible](https://github.com/bredele/binding#plugins), like jQuery you can create your own plugins or reuse some others. The possibilities are limitless and the barrier is so low that you'll want to do it straight away. 
 
-Here's a list of available plugins:
-  - [list](https://github.com/bredele/list) create a list by instantiating a template once per item from a collection
-  - [event](https://github.com/bredele/event-plugin) listen or delegate events with automatic touch support
-  - [control](https://github.com/bredele/control-plugin) toggle or radio elements has never been so easy
-  - [stack](https://github.com/bredele/stack-plugin) create a stack of DOM elements for tab-based navigation
-  - [bind](https://github.com/bredele/bind-plugin) attribute double way binding
-  - [hidden](https://github.com/bredele/hidden-plugin) hide you dom element when the data changes
-  - [html](https://github.com/bredele/html-plugin) bind inner html to data
-  - [text](https://github.com/bredele/text-plugin) bind inner text to data
+## A 10 seconds example
+
+HTML:
+```html
+<span>Cement is {{ adjective }}</span>
+```
+
+JavaScript:
+```js
+cement({
+  adjective: 'awesome'
+}).scan(el);
+```
+
+Result:
+```html
+<span>Cement is awesome</span>
+```
 
 ## Installation
 
-    $ component install bredele/binding
+component:
+
+    $ component install bredele/cement
+
+nodejs:
+
+    $ component install cement
 
 standalone:
 
 ```html
-<script src="binding.js"></script>
+<script src="cement.js"></script>
 ```
 
-## Basics
+## Features
 
-An [example](https://github.com/bredele/binding/blob/master/examples/basics.html) is worth a thousand words.
+### Interpolation
+
+  Cement uses [supplant](http://github.com/bredele/supplant) which allows you to substitute expressions (enclosed in `{{ }}` braces) with your data. Whenever the data changes, the expression is updated.
 
 ```html
-<span id="card">My github is {github}</span>
+<span class="{{ type }}">My name is {{ name }}</span>
 ```
-By default, `binding` applies variable substitution (`{variable}`) from the data model.
 
-```js
-var binding = require('binding'),
-    el = document.getElementById('card');
-
-binding({
-  github: 'bredele'
-}).apply(el);
-```
-You can use variable substitution in every possible HTML and SVG attribute. Here's an other example:
+  Expressions can be used in every dom nodes and attributes, it even works with SVG:
 
 ```html
-<span id="card" class="{github}">
-  My github is <a href="http://github.com/{github}">{github}</a>
-</span>
-```
-The result is:
-```html
-<span id="card" class="bredele">
-  My github is <a href="http://github.com/bredele">bredele</a>
-</span>
+<svg>
+  <text fill="url(#filler)">{{ label }}</text>
+</svg>
 ```
 
-## Plugins
-
-A `binding` plugin is simply a function or an object that we use to extend the HTML capabilities. It becomes more **expressive, configurable and dynamic**.
-
-```js
-binding()
-  .add('list', list)
-  .apply(el);
-```
-You choose what plugin you want to use: **your application does just what you need and nothing more**.
+  You can compute your data or use all sort of operators:
 
 ```html
-<ul list>
-  <li></li>
+<span>My name is {{ firstName + ' ' + lastName }}</span>
+```
+
+  And filter the expression with custom handlers:
+ 
+```html
+<span>My name is {{ name } | upper }</span>
+``` 
+
+  Cement is not a template engine like Mustache/Handlebars, it works directly on dom nodes (not on strings) and can be easily included in your existing projects.
+
+
+### Data binding and plugins
+
+  Cement is higly extensible and allows you to create `data bindings` or `directives`. Here's a quick example:
+
+HTML:
+```html
+<ul repeat>
+  <li>{{ name }}</li>
 </ul>
 ```
- > By giving a name to your plugins, you avoid scope conflicts and you can reuse a plugin multiple times.
 
+JavaScript:
+```js
+cement(data)
+  .add('repeat', repeat())
+  .scan(el);
+```
 
-### function plugin
-
-Writing a plugin is as **simple as writing a JavaScript function**.
+  A directive in cement is called a plugin. Like jQuery you can create your own plugins or reuse some others. The possibilities are limitless and the barrier is so low (a plugin is just a simple function) that you'll want to do it straight away.
 
 ```js
-binding({
-    github: 'bredele'
+cement(data)
+  .add('repeat', function(el) {
+    // repeat el first child
   })
-  .add('data-nickname', function(node, str) {
-    node.innerHTML = "I am " + this[str];
-  })
-  .apply(el);
+  .scan(el);
 ```
-A function plugin always has the dom element as first argument and its scope (`this`) is the data model you passed in the constructor.
 
+  At the opposite of some frameworks out there, you can give a name to your bindings and reuse them multiple times. It's important because you'll probably have views with the same plugin that overlaps and you want to avoid conflicts of memory leaks. If it doesn't make sense here's an example:
+
+  Let's say you are using a framework with built-in directives. One of them is `on-click` and allows you to execute a function on click. You have two views, each of them use `on-click`.
+
+HTML:
 ```html
-<span data-nickname="github"></span>
+<div class="view1">
+  <button class="btn1" on-click="method1"></button>
+  <div class="view2">
+    <button class="btn2" on-click="method2"></button>
+  </div>
+</div>
 ```
+  In this example method2 will be called twice when you click on `btn2` because view2 overlap view1 and have the same directive name. That's not the behaviour you are expecting! Cement resolve this problem by giving the name you want to your plugin:
 
-In the example above, we define a plugin called `data-nickname` that set the content of the dom element with the value of the attribute `data-nickname`. The result is:
-
-```html
-<span data-nickname="github">I am bredele</span>
-```
-  > We advise you to use [store](https://github.com/bredele/store) as data model. Because store is based on an emitter, you'll be able to listen and react when the data changes. See [bind](https://github.com/bredele/bind-plugin) for a simple example using store events.
-
-
-### object plugin
-
-We used to say one function (or unit) equal one functionality. Potentially, a plugin can be more complex than just a function. That's the reason why a plugin can also be a JavaScript object. An object will give you more structure and control over your plugin.
 
 ```js
-var state = {
-  type: 'blog',
-  text: 'binding component is awesome'
-};
+var view1 = cement()
+  .add('on-click1', events(obj))
+  .scan(view1);
 
-binding(state)
-  .add('data-state', {
-    add: function(node, attr, data) {
-      if(state.type === 'blog') node[attr] = state[data];
-    },
-    hide: function(node) {
-     if(state.type === 'blog') el.className = 'hidden';
-    }
-  })
-  .apply(el);
-```
-From the HTML markup, you can call a plugin method (here `add` and `remove`) with the following syntax `method:arg,arg`. You'll find the entire spec at this [link](https://github.com/bredele/plugin-parser).
-
-```html
-<section>
-  <article data-state="add:innerHTML,text"></article>
-  <div data-state="hide"></div>
-</section>
+ var view2 = cement()
+  .add('on-click2', events(obj))
+  .scan(view2); 
 ```
 
-A plugin can be the backbone of your application, making easy to invent new HTML features and create reusable components.
-
-  > See [list](https://github.com/bredele/list) for a great example of object binding. List can be used as a plugin or as an isolated component. That's one of the benefit to have objects as binding.
-
-
-### Notes
-
-  `binding` can be used with SVG elements and makes easy to create dynamic and real time charts. However, SVG doesn't support custom attributes and you should prefix your plugins with `data-` (dataset attributes).
-
-  `binding` is not invasive and free from boilerplate: it lets you write the old plain JavaScript you like. It has been built though with some concepts such as inversion of controls and configuration because it allows you to control what is happening in your application, to easily test, maintain or reuse your plugins. Please keep that in mind when you'll write your own plugins.
-
-  `binding` is a work in progress. We will probably make the [object plugin](https://github.com/bredele/binding#object-plugin) spec better.
+  It makes your code more expressive and allows you to export and reuse plugins easily.
 
 
 ## API
 
-### Binding#(model)
+### cement(obj)
 
-  initialize a binding with a model object.
+  Initialize a binding with a model object (optional). You can either pass a [datastore](http://github.com/bredele/datastore) or a plain JavaScript object which will be convert into a datastore (see [data](#dataobj))
 
   ```js
-  var binding = require('binding');
-  binding({});
+  var cement = require('cement');
+  cement(obj);
   ```
-  or
+### .data(obj)
+
+  Set cement model.
 
   ```js
-  var Binding = require('binding');
-  
-  var binding = new Binding({});
-  ```  
+  cement().data(obj);
+  ```
+
+  A cement model is based on [datastore](http://github.com/bredele/datastore), an extensible and obervable model which works on both client and server sides.
 
 ### .add(name, binding) 
 
-  add attribute bindings ([functions](https://github.com/bredele/binding#function-plugin) or [objects](https://github.com/bredele/binding#object-plugin)) by name
+  Add function plugin.
 
   ```js
-  binding({}).add('bredele', plugin);  
+  cement().add('data-plugin', plugin);  
   ```
 
-### .apply(node)
-
-  apply bindings on a given dom node
+  ```html
+  <span data-plugin="whatever"></span>
+  ```
+  A plugin accepts the attached dom node as first argument and the
+  plugin content as second argument.
 
   ```js
-  binding({})
-    .add('bredele', plugin)
+  function plugin(el, expr) {
+    console.log(expr);
+    // => 'whatever'
+  }
+  ```
+
+  The scope of the plugin (`this`) function is the model.
+
+### .scan(node)
+
+  Apply substitutions and plugins on a given dom node
+
+  ```js
+  cement()
     .apply(document.body);  
   ```
 

@@ -117,86 +117,86 @@ describe("Binding", function() {
 
     });
 
-    describe('Object binding', function() {
+    // describe('Object binding', function() {
 
-      it('shoud apply Object as binding', function() {
-        var el = domify('<a data-model="bind:innerHTML,prop"></a>');
+    //   it('shoud apply Object as binding', function() {
+    //     var el = domify('<a data-model="bind:innerHTML,prop"></a>');
 
-        var binding = new Binding();
-        var Plugin = function(model){
-          this.bind = function(el, attr, prop){
-            el[attr] = model.prop;
-          };
-        };
+    //     var binding = new Binding();
+    //     var Plugin = function(model){
+    //       this.bind = function(el, attr, prop){
+    //         el[attr] = model.prop;
+    //       };
+    //     };
 
-        binding.add('data-model', new Plugin({
-          prop : 'http://github.com/bredele'
-        }));
+    //     binding.add('data-model', new Plugin({
+    //       prop : 'http://github.com/bredele'
+    //     }));
 
-        binding.scan(el);
-        assert('http://github.com/bredele' === el.innerHTML);
-      });
+    //     binding.scan(el);
+    //     assert('http://github.com/bredele' === el.innerHTML);
+    //   });
 
-      it('should apply nested bindings', function() {
+    //   it('should apply nested bindings', function() {
 
-        var el = domify('<ul><li class="first" data-model="bind:innerHTML,firstname"></li>' + 
-          '<li class="last" data-model="bind:innerHTML,lastname"></li>' +
-          '</ul>');
+    //     var el = domify('<ul><li class="first" data-model="bind:innerHTML,firstname"></li>' + 
+    //       '<li class="last" data-model="bind:innerHTML,lastname"></li>' +
+    //       '</ul>');
 
-        var binding = new Binding();
-        var Plugin = function(model){
-          this.bind = function(el, attr, prop){
-            el[attr] = model[prop];
-          };
-        };
+    //     var binding = new Binding();
+    //     var Plugin = function(model){
+    //       this.bind = function(el, attr, prop){
+    //         el[attr] = model[prop];
+    //       };
+    //     };
 
-        binding.add('data-model', new Plugin({
-          firstname : 'Olivier',
-          lastname : 'Wietrich'
-        }));
+    //     binding.add('data-model', new Plugin({
+    //       firstname : 'Olivier',
+    //       lastname : 'Wietrich'
+    //     }));
 
-        binding.scan(el);
-        assert('Olivier' === el.querySelector('.first').innerHTML);
-        assert('Wietrich' === el.querySelector('.last').innerHTML);
-      });
+    //     binding.scan(el);
+    //     assert('Olivier' === el.querySelector('.first').innerHTML);
+    //     assert('Wietrich' === el.querySelector('.last').innerHTML);
+    //   });
 
-      it('should apply bindings and inteprolation', function() {
-        var el = domify('<a class="{{className}}" data-model="bind:innerHTML,prop"></a>');
-        var store = new Store({
-          prop : 'http://github.com/bredele',
-          className : 'bredele'
-        });
-        var binding = new Binding(store);
+    //   it('should apply bindings and inteprolation', function() {
+    //     var el = domify('<a class="{{className}}" data-model="bind:innerHTML,prop"></a>');
+    //     var store = new Store({
+    //       prop : 'http://github.com/bredele',
+    //       className : 'bredele'
+    //     });
+    //     var binding = new Binding(store);
 
-        var Plugin = function(model){
-          this.bind = function(el, attr, prop){
-            el[attr] = model.get(prop);
-          };
-        };
+    //     var Plugin = function(model){
+    //       this.bind = function(el, attr, prop){
+    //         el[attr] = model.get(prop);
+    //       };
+    //     };
 
-        binding.add('data-model', new Plugin(store));
+    //     binding.add('data-model', new Plugin(store));
 
-        binding.scan(el);
-        assert('http://github.com/bredele' === el.innerHTML);
-        assert('bredele' === el.className);
-      });
+    //     binding.scan(el);
+    //     assert('http://github.com/bredele' === el.innerHTML);
+    //     assert('bredele' === el.className);
+    //   });
 
-      it('should call default binding method', function() {
-        var el = domify('<input required>');
+    //   it('should call default binding method', function() {
+    //     var el = domify('<input required>');
 
-        var binding = new Binding();
-        var Plugin = function(){
-          this.main = function(el){
-            el.value = 'bredele';
-          };
-        };
+    //     var binding = new Binding();
+    //     var Plugin = function(){
+    //       this.main = function(el){
+    //         el.value = 'bredele';
+    //       };
+    //     };
 
-        binding.add('required', new Plugin());
+    //     binding.add('required', new Plugin());
 
-        binding.scan(el);
-        assert('bredele' === el.value);
-      });
-    });
+    //     binding.scan(el);
+    //     assert('bredele' === el.value);
+    //   });
+    // });
 });
 
 
@@ -407,45 +407,21 @@ describe("Binding", function() {
   describe("Query", function() {
 
     it('should only query select the plugins (no interpolation)', function() {
-      var el = domify('<span data-query1="hello world" data-query2="test:hello">{{label}}</span>'),
-      query1 = false,
-      query2 = false;
+      var el = domify('<span data-query1="hello world">{{label}}</span>');
+      var query1 = false;
 
       Binding()
       .add('data-query1', function(el, str) {
         query1 = true;
       })
-      .add('data-query2', {
-        test: function(el, arg) {
-          query2 = true;
-        }
-      })
       .scan(el, true);
 
       assert.equal(query1, true);
-      assert.equal(query2, true);
       assert.equal(el.innerHTML, '{{label}}');
     });
   });
 
   describe("remove", function() {
-
-    it("should destroy plugins", function() {
-      var el = document.createElement('div'),
-      plugin = {
-        called:false,
-        destroy:function() {
-          this.called = true;
-        }
-      };
-
-      var binding = Binding()
-      .add('plug', plugin)
-      .scan(el);
-
-      binding.remove();
-      assert.equal(plugin.called, true);
-    });
 
     it("should unsubscribe to store");
     
