@@ -136,7 +136,7 @@ var view1 = cement()
 
 ### cement#(model)
 
-  Initialize a binding with a model object (optional). You can either pass a [datastore](http://github.com/bredele/datastore) or a plain JavaScript object which will be convert into a datastore (see [data](@dataobj))
+  Initialize a binding with a model object (optional). You can either pass a [datastore](http://github.com/bredele/datastore) or a plain JavaScript object which will be convert into a datastore (see [data](#dataobj))
 
   ```js
   var cement = require('cement');
