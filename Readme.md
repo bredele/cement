@@ -134,7 +134,7 @@ var view1 = cement()
 
 ## API
 
-### cement#(model)
+### cement(obj)
 
   Initialize a binding with a model object (optional). You can either pass a [datastore](http://github.com/bredele/datastore) or a plain JavaScript object which will be convert into a datastore (see [data](#dataobj))
 
@@ -177,7 +177,7 @@ var view1 = cement()
 
 ### .scan(node)
 
-  Apply bindings on a given dom node
+  Apply substitutions and plugins on a given dom node
 
   ```js
   cement()
