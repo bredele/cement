@@ -31,10 +31,10 @@
   </section>
   <script src="../build/build.js"></script>
   <script>
-  var binding = require('binding'),
+  var cement = require('cement'),
       Store = require('datastore');
 
-  binding(new Store())
+  cement(new Store())
   .add('input', function(node) {
     var _this = this;
     node.addEventListener('input', function() {

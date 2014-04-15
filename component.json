@@ -1,8 +1,8 @@
 {
-  "name": "binding",
-  "repo": "bredele/binding",
+  "name": "cement",
+  "repo": "bredele/cement",
   "description": "Data attribute binding and interpolation",
-  "version": "0.1.1",
+  "version": "0.3.0",
   "keywords": [],
   "dependencies": {
     "bredele/supplant": "*",

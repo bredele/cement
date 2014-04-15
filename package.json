@@ -1,6 +1,6 @@
 {
-  "name": "data-binding",
-  "version": "0.1.1",
+  "name": "cement",
+  "version": "0.3.0",
   "description": "Data attribute binding and interpolation",
   "main": "index.js",
   "scripts": {
@@ -20,12 +20,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/bredele/binding.git"
+    "url": "git://github.com/bredele/cement.git"
   },
   "keywords": [
     "mvvm",
     "model",
+    "brick",
     "binding",
+    "cement",
     "data",
     "dataset",
     "interpolation"
@@ -33,6 +35,6 @@
   "author": "Olivier Wietrich <olivier.wietrich@gmail.com> (http://github.com/bredele)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bredele/binding/issues"
+    "url": "https://github.com/bredele/cement/issues"
   }
 }

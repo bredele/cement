@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Basics</title>
+</head>
+<body>
+  <div id="example">
+    <span id="card">My name is: {{name}}</span>
+  </div>
+  <script src="../build/build.js"></script>
+  <script>
+  var cement = require('cement'),
+      Store = require('datastore'), 
+      store = new Store({});
+
+  store.compute('name', function() {
+    return this.firstName + ' ' + this.lastName;
+  });
+  cement(store).scan(document.getElementById('example'));
+
+  setTimeout(function(){
+    store.set('firstName', 'olivier');
+    store.set('lastName', 'Wietrich');
+  }, 1000);
+  </script>
+</body>
+</html>

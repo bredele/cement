@@ -8,8 +8,8 @@ components: component.json
 clean:
 	rm -fr build components template.js
 
-binding.js: components
-	@component build --standalone binding --name binding --out .
+cement.js: components
+	@component build --standalone cement --name cement --out .
 
 test: build
 	open test/index.html
