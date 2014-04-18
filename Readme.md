@@ -4,7 +4,7 @@
   Mixed cement with HTML and JavaScript to obtain a flexible and insanely fast live binding.
 
 
-  Cement is an automatic way of updating your HTML whenever the underlying data changes. It works on all major browsers (IE8 included) and is incredibly easy to learn. It's the soft glue that hardens your applications.
+  Cement is an automatic way of updating your HTML whenever the underlying data changes. It uses **[supplant](http://github.com/bredele/supplant)** to add mustache-like capabilities to your dom and works on all major browsers (IE8 included). Cement is ridiculously easy to learn and will be the soft glue that hardens your applications.
 
 
 ## A 10 seconds example
@@ -28,11 +28,11 @@ Result:
 
 ## Installation
 
-component:
+with [component](http://github.com/component/component):
 
     $ component install bredele/cement
 
-nodejs:
+with [browserify](http://browserify.org/):
 
     $ component install cement
 
@@ -154,7 +154,7 @@ var view1 = cement()
 
 ### .add(name, binding) 
 
-  Add function plugin.
+  Add binding plugin.
 
   ```js
   cement().add('data-plugin', plugin);  
@@ -163,8 +163,7 @@ var view1 = cement()
   ```html
   <span data-plugin="whatever"></span>
   ```
-  A plugin accepts the attached dom node as first argument and the
-  plugin content as second argument.
+  A plugin accepts the attached dom node as first argument and the directive content as second argument. Use **[mould](http://github.com/bredele/mould)** to format the directive content and extend plugins capabilities.
 
   ```js
   function plugin(el, expr) {
@@ -173,7 +172,7 @@ var view1 = cement()
   }
   ```
 
-  The scope of the plugin (`this`) function is the model.
+  The scope of the plugin (`this`) function is the model. 
 
 ### .scan(node)
 
