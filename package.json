@@ -1,6 +1,6 @@
 {
   "name": "cement",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Data attribute binding and interpolation",
   "main": "index.js",
   "scripts": {
@@ -8,9 +8,9 @@
     "test-local": "zuul --local -- test/*.js"
   },
   "dependencies": {
-    "datastore": "^1.0.0",
     "indexof": "0.0.1",
-    "supplant": "~0.1.2"
+    "supplant": "~0.1.2",
+    "datastore": "^1.0.2"
   },
   "devDependencies": {
     "mocha": "~1.17.1",
