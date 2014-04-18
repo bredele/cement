@@ -2,12 +2,12 @@
   "name": "cement",
   "repo": "bredele/cement",
   "description": "Data attribute binding and interpolation",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "keywords": [],
   "dependencies": {
     "bredele/supplant": "*",
-    "bredele/datastore" : "*",
-    "component/indexof": "*" 
+    "bredele/datastore": "*",
+    "component/indexof": "*"
   },
   "development": {
     "component/assert": "*",
