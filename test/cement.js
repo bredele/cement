@@ -43,14 +43,14 @@ describe("cement binding", function() {
     });
     
     it("should bind existing attribute", function(done) {
-      cement.attr('class', function(el, value) {
+      cement.bind('class', function(el, value) {
         if(value === 'section') done();
       });
       cement.render(node, text);
     });
 
     it("should pass the target node", function(done) {
-      cement.attr('class', function(el, value) {
+      cement.bind('class', function(el, value) {
         if(el === node) done();
       });
       cement.render(node, text);
@@ -58,7 +58,7 @@ describe("cement binding", function() {
     
     
     it("should bind custom attribute", function(done) {
-      cement.attr('data-custom', function(el, value) {
+      cement.bind('data-custom', function(el, value) {
         if(value === 'something') done();
       });
       cement.render(node, text);

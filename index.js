@@ -29,18 +29,23 @@ function Cement() {
  * 
  * @param  {String} name 
  * @param  {Function} binding
+ * @api public
  */
 
-Cement.prototype.attr = function(name, binding) {
+Cement.prototype.bind = function(name, binding) {
   this.bindings[name] = binding;
 };
 
 
 /**
+ * Apply bindings on dom
+ * element.
+ *
  * 
  * 
  * @param  {Element} root 
- * @return {this} 
+ * @param {Function} text 
+ * @api public
  */
 
 Cement.prototype.render = function(root, text) {
