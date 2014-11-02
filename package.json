@@ -1,6 +1,6 @@
 {
   "name": "cement",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Data attribute binding and interpolation",
   "main": "index.js",
   "scripts": {

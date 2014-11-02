@@ -1,9 +1,7 @@
 {
   "name": "cement",
-  "repo": "bredele/cement",
-  "description": "Data attribute binding and interpolation",
-  "version": "0.3.2",
-  "keywords": [],
+  "description": "DOM attribute and text binding",
+  "version": "0.4.0",
   "dependencies": {
   },
   "development": {
