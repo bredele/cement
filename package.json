@@ -1,7 +1,7 @@
 {
   "name": "cement",
   "version": "0.4.0",
-  "description": "Data attribute binding and interpolation",
+  "description": "DOM attribute and text binding",
   "main": "index.js",
   "scripts": {
     "test": "zuul -- test/*.js",
@@ -21,13 +21,9 @@
   },
   "keywords": [
     "mvvm",
-    "model",
     "brick",
     "binding",
-    "cement",
-    "data",
-    "dataset",
-    "interpolation"
+    "cement"
   ],
   "author": "Olivier Wietrich <olivier.wietrich@gmail.com> (http://github.com/bredele)",
   "license": "MIT",

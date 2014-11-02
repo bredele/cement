@@ -3,6 +3,7 @@
   "description": "DOM attribute and text binding",
   "version": "0.4.0",
   "dependencies": {
+    "bredele/domwalk": "0.2.0"
   },
   "development": {
     "component/assert": "*"
