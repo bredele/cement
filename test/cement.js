@@ -9,7 +9,7 @@ var Cement = require('..');
 
 describe("cement binding", function() {
 
-  describe("attributes", function() {
+  describe("attribute nodes", function() {
 
     var node, cement;
     beforeEach(function() {
@@ -38,7 +38,35 @@ describe("cement binding", function() {
       });
       cement.scan(node);
     });
+
   });
+
+  describe("text nodes", function() {
+
+    var cement;
+    beforeEach(function() {
+      cement = new Cement();
+    });
+
+    it("should bind text node", function(done) {
+      var node = domify('<section>hello</section>');
+      cement.text(function(str) {
+        if(str === 'hello') done();
+      });
+      cement.scan(node);
+    });
+    
+    it("should bind attributes content", function() {
+      var node = domify('<section class="hello">');
+      cement.text(function(str) {
+        if(str === 'hello') done();
+      });
+      cement.scan(node);
+    });
+    
+    
+  });
+  
   
 });
 
