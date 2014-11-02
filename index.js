@@ -39,7 +39,7 @@ Cement.prototype.bind = function(name, binding) {
 
 /**
  * Apply bindings on dom
- * element.
+ * element (root).
  *
  * 
  * 
@@ -58,10 +58,10 @@ Cement.prototype.render = function(root, text) {
         var attr = attrs[i];
         var plugin = bindings[attr.nodeName];
         if(plugin) plugin(node, attr.nodeValue);
-        else text(attr.nodeValue);
+        else text(attr.nodeValue, attr);
       }
     } else {
-      text(node.nodeValue);
+      text(node.nodeValue, node);
     }
   });
 };

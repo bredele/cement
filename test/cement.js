@@ -18,14 +18,14 @@ describe("cement binding", function() {
 
     it("should bind text node", function(done) {
       var node = domify('<section>hello</section>');
-      cement.render(node, function(str) {
+      cement.render(node, function(str, el) {
         if(str === 'hello') done();
       });
     });
     
     it("should bind attributes content", function(done) {
       var node = domify('<section class="hello">');
-      cement.render(node, function(str) {
+      cement.render(node, function(str, el) {
         if(str === 'hello') done();
       });
     });
