@@ -41,7 +41,9 @@ Cement.prototype.bind = function(name, binding) {
  * Apply bindings on dom
  * element (root).
  *
- * 
+ * A mandatory callback (text) allows
+ * you to get the content of every text
+ * node and transform it.
  * 
  * @param  {Element} root 
  * @param {Function} text 
