@@ -5,13 +5,9 @@
   "version": "0.3.2",
   "keywords": [],
   "dependencies": {
-    "bredele/supplant": "*",
-    "bredele/datastore": "*",
-    "component/indexof": "*"
   },
   "development": {
-    "component/assert": "*",
-    "component/domify": "1.0.0"
+    "component/assert": "*"
   },
   "license": "MIT",
   "main": "index.js",

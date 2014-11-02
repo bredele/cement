@@ -17,24 +17,24 @@ describe("cement binding", function() {
       node = domify('<section class="section" data-custom="something">');
     });
     
-    it("should bind existing attribute", function() {
+    it("should bind existing attribute", function(done) {
       cement.attr('class', function(el, value) {
-        assert.equal(value, 'section');
+        if(value === 'section') done();
       });
       cement.scan(node);
     });
 
-    it("should pass the target node", function() {
+    it("should pass the target node", function(done) {
       cement.attr('class', function(el, value) {
-        assert.equal(el, node);
+        if(el === node) done();
       });
       cement.scan(node);
     });
     
     
-    it("should bind custom attribute", function() {
+    it("should bind custom attribute", function(done) {
       cement.attr('data-custom', function(el, value) {
-        assert.equal(value, 'something');
+        if(value === 'something') done();
       });
       cement.scan(node);
     });
