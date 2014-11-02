@@ -1,452 +1,86 @@
+
+/**
+ * Test dependencies.
+ */
+
 var assert = require('assert');
-var domify = require('domify');
-var Store = require('datastore');
-var Binding = require('..');
+var Cement = require('..');
 
 
-describe("Binding", function() {
+describe("cement binding", function() {
 
-  describe("factory", function() {
+  describe("text nodes", function() {
 
-    it("binding()", function() {
-      var obj = Binding();
-      assert.equal(typeof obj.add, 'function');
-      assert.equal(typeof obj.scan, 'function');
+    var cement;
+    beforeEach(function() {
+      cement = new Cement();
     });
 
-    it("new Binding()", function() {
-      var obj = new Binding();
-      assert.equal(typeof obj.add, 'function');
-      assert.equal(typeof obj.scan, 'function');
+    it("should bind text node", function(done) {
+      var node = domify('<section>hello</section>');
+      cement.render(node, function(str, el) {
+        if(str === 'hello') done();
+      });
     });
+    
+    it("should bind attributes content", function(done) {
+      var node = domify('<section class="hello">');
+      cement.render(node, function(str, el) {
+        if(str === 'hello') done();
+      });
+    });
+    
   });
 
-  describe('single node data binding', function() {
 
-    describe('Attribute and Dataset binding', function() {
+  describe("attribute nodes", function() {
 
-      it('should add attribute binding', function() {
-        var el = domify('<a link></a>');
-        var binding = new Binding();
-        binding.add('link', function(el){
-          el.setAttribute('href', 'http://github.com/bredele');
-        });
-        binding.scan(el);
-
-        assert('http://github.com/bredele' === el.getAttribute('href'));
+    var node, cement, text;
+    beforeEach(function() {
+      cement = new Cement();
+      node = domify('<section class="section" data-custom="something">');
+      text = function() {};
+    });
+    
+    it("should bind existing attribute", function(done) {
+      cement.bind('class', function(el, value) {
+        if(value === 'section') done();
       });
-
-      it('should add dataset binding', function() {
-        var el = domify('<a data-text="olivier"></a>');
-        var binding = new Binding();
-        binding.add('data-text', function(el, value){
-          el.innerText = value;
-        });
-        binding.scan(el);
-
-        assert('olivier' === el.innerText);
-      });
+      cement.render(node, text);
     });
 
-    describe('function binding', function() {
-
-      var plugin = null;
-
-      beforeEach(function(){
-        plugin = {
-          test : function(el){
-            el.innerText = 'awesome';
-          },
-          other : function(el){
-            el.className = 'beauty';
-          }
-        };
-
+    it("should pass the target node", function(done) {
+      cement.bind('class', function(el, value) {
+        if(el === node) done();
       });
-
-      it('should apply function as binding', function(){
-        var el = domify('<a data-test="something"></a>');
-        var binding = new Binding();
-        binding.add('data-test', plugin.test);
-        binding.scan(el);
-
-        assert('awesome' === el.innerText);
+      cement.render(node, text);
+    });
+    
+    
+    it("should bind custom attribute", function(done) {
+      cement.bind('data-custom', function(el, value) {
+        if(value === 'something') done();
       });
-
-      it('should apply multiple function bindings', function(){
-        var el = domify('<a data-test="something" data-other="">link</a>');
-        var binding = new Binding();
-        binding.add('data-test', plugin.test);
-        binding.add('data-other', plugin.other);
-        binding.scan(el);
-
-        assert('beauty' === el.className);
-        assert('awesome' === el.innerText);
-      });
-
-      it('should apply the binding model as the scope of the function binding', function(){
-        var el = domify('<a data-scope="name"></a>');
-        var store = new Store({
-          name : 'Wietrich'
-        });
-        var binding = new Binding(store);
-        binding.add('data-scope', function(el){
-          el.innerText = this.get('name'); //TODO: should pass the model attribute's name
-        });
-        binding.scan(el);
-
-        assert('Wietrich' === el.innerText);
-      });
-
-      it('should binding and interpolation', function(){
-        var el = domify('<a href="{{ link }}" data-other>{{    title}}</a>');
-
-        var store = new Store({
-          link : 'http://github.com/bredele',
-          title : 'bredele'
-        });
-
-        var binding = new Binding(store);
-        binding.add('data-other', plugin.other);
-        binding.scan(el);
-
-        assert('beauty' === el.className);
-        assert('http://github.com/bredele' === el.getAttribute('href'));
-        assert('bredele' === el.innerHTML);
-      });
-
+      cement.render(node, text);
     });
 
-    // describe('Object binding', function() {
+  });
 
-    //   it('shoud apply Object as binding', function() {
-    //     var el = domify('<a data-model="bind:innerHTML,prop"></a>');
-
-    //     var binding = new Binding();
-    //     var Plugin = function(model){
-    //       this.bind = function(el, attr, prop){
-    //         el[attr] = model.prop;
-    //       };
-    //     };
-
-    //     binding.add('data-model', new Plugin({
-    //       prop : 'http://github.com/bredele'
-    //     }));
-
-    //     binding.scan(el);
-    //     assert('http://github.com/bredele' === el.innerHTML);
-    //   });
-
-    //   it('should apply nested bindings', function() {
-
-    //     var el = domify('<ul><li class="first" data-model="bind:innerHTML,firstname"></li>' + 
-    //       '<li class="last" data-model="bind:innerHTML,lastname"></li>' +
-    //       '</ul>');
-
-    //     var binding = new Binding();
-    //     var Plugin = function(model){
-    //       this.bind = function(el, attr, prop){
-    //         el[attr] = model[prop];
-    //       };
-    //     };
-
-    //     binding.add('data-model', new Plugin({
-    //       firstname : 'Olivier',
-    //       lastname : 'Wietrich'
-    //     }));
-
-    //     binding.scan(el);
-    //     assert('Olivier' === el.querySelector('.first').innerHTML);
-    //     assert('Wietrich' === el.querySelector('.last').innerHTML);
-    //   });
-
-    //   it('should apply bindings and inteprolation', function() {
-    //     var el = domify('<a class="{{className}}" data-model="bind:innerHTML,prop"></a>');
-    //     var store = new Store({
-    //       prop : 'http://github.com/bredele',
-    //       className : 'bredele'
-    //     });
-    //     var binding = new Binding(store);
-
-    //     var Plugin = function(model){
-    //       this.bind = function(el, attr, prop){
-    //         el[attr] = model.get(prop);
-    //       };
-    //     };
-
-    //     binding.add('data-model', new Plugin(store));
-
-    //     binding.scan(el);
-    //     assert('http://github.com/bredele' === el.innerHTML);
-    //     assert('bredele' === el.className);
-    //   });
-
-    //   it('should call default binding method', function() {
-    //     var el = domify('<input required>');
-
-    //     var binding = new Binding();
-    //     var Plugin = function(){
-    //       this.main = function(el){
-    //         el.value = 'bredele';
-    //       };
-    //     };
-
-    //     binding.add('required', new Plugin());
-
-    //     binding.scan(el);
-    //     assert('bredele' === el.value);
-    //   });
-    // });
+  
+  
 });
 
 
-  describe('nested node dataset binding', function() {
+/**
+ * Create dom from string.
+ * 
+ * @param  {String} text
+ * @return {Element}
+ */
 
-    it('shoud apply bindings on different dom nodes', function() {
-      var el = domify('<a data-plug1><span data-plug2>test</span></a>');
-      var binding = new Binding();
-      binding.add('data-plug1', function(node){
-        node.setAttribute('href', 'http://github.com/bredele');
-      });
-      binding.add('data-plug2', function(node){
-        node.innerText = 'bredele';
-      });
-      binding.scan(el);
-      assert('http://github.com/bredele' === el.getAttribute('href'));
-      assert('bredele' === el.firstChild.innerText);
-    });
+function domify(text) {
+  var div = document.createElement('div');
+  div.innerHTML = text;
+  return div.firstChild;
+}
 
-    it('shoud apply bindings on different dom nodes with interpolation', function() {
-      var el = domify('<a data-plug1>{link}<span data-plug2>{label}</span></a>');
-      var binding = new Binding(new Store({
-        link : 'Click to go on',
-        label : 'bredele website'
-      }));
-      binding.add('data-plug1', function(node){
-        node.setAttribute('href', 'http://github.com/bredele');
-      });
-      binding.add('data-plug2', function(node){
-        node.innerText = 'bredele';
-      });
-      binding.scan(el);
-      assert('http://github.com/bredele' === el.getAttribute('href'));
-      assert('bredele' === el.querySelector('span').innerText);
-    });
-  });
-
-  describe('data-set plugin', function() {
-
-    it('should call data set plugin and pass the node and its content', function() {
-      var el = domify('<span data-bind="name"></span>');
-      var store = new Store({
-        name : 'olivier'
-      });
-      var value = null;
-      var node = null;
-      var binding = new Binding(store);
-      binding.add('data-bind', function(el, val){
-        value = val;
-        node = el;
-      });
-      binding.scan(el);
-      assert('name' === value);
-      assert.equal(node, el);
-    });
-  });
-
-
-  describe('interpolation', function() {
-
-    it('single attribute', function() {
-      var el = domify('<span>{{name}}</span>');
-      var store = new Store({
-        name : 'olivier'
-      });
-      var binding = new Binding(store);
-      binding.scan(el);
-      assert('olivier' === el.innerHTML);
-
-      store.set('name', 'bruno');
-      assert('bruno' === el.innerHTML);
-    });
-
-    it('should display an empty string for undefined variables', function() {
-      var el = domify('<span>{{name}}</span>');
-      var store = new Store();
-      var binding = new Binding(store);
-      binding.scan(el);
-      assert.equal(el.innerHTML, '');
-
-    });
-
-    it('multiple attributes on different nodes', function() {
-      var el = domify('<a href={{link}}>{{label}}</a>');
-      var store = new Store({
-        label : 'bredele'
-      });
-
-      var binding = new Binding(store);
-      binding.scan(el);
-      assert('bredele' === el.innerHTML);
-      assert('' === el.getAttribute('href'));
-
-      store.set('link', 'http://github.com/bredele');
-      assert('http://github.com/bredele' === el.getAttribute('href'));
-
-    });
-
-    it('multiple attributes on the same node', function() {
-      var el = domify('<a href={{link}}/repo/{{name}}></a>');
-      var store = new Store({
-        link : 'http://github.com/bredele',
-        name:'store'
-      });
-
-      var binding = new Binding(store);
-      binding.scan(el);
-      assert('http://github.com/bredele/repo/store' === el.getAttribute('href'));
-      store.set('link', 'http://github.com');
-      assert('http://github.com/repo/store' === el.getAttribute('href'));
-      store.set('name', 'bredele');
-      assert('http://github.com/repo/bredele' === el.getAttribute('href'));
-    });
-
-    it('nested attributes', function() {
-      var el = domify('<a href="{{link}}"><span>{{label}}</span></a>');
-      var store = new Store({
-        link: 'http://github.com/bredele',
-        label : 'bredele'
-      });
-      var binding = new Binding(store);
-      binding.scan(el);
-      assert('bredele' === el.firstChild.innerHTML);
-      assert('http://github.com/bredele' === el.getAttribute('href'));
-      store.set('link', 'http://www.google.com');
-      assert('http://www.google.com' === el.getAttribute('href'));
-      store.set('label', 'olivier');
-      assert('olivier' === el.firstChild.innerHTML);
-    });
-
-    describe("expressions", function() {
-      it("should render inteprolation expressions", function() {
-        var el = domify('<span>{{ label.length }}</span>');
-        var store = new Store({
-          label : 'label'
-        });
-        var binding = new Binding(store);
-        binding.scan(el);
-        assert.equal(el.innerHTML, '5');
-      });
-
-      it('should listen changes on expressions', function() {
-        var el = domify('<span>{{ label.length }}</span>');
-        var store = new Store({
-          label : 'label'
-        });
-        var binding = new Binding(store);
-        binding.scan(el);
-        store.set('label', 'bredele');
-        assert.equal(el.innerHTML, '7');
-      });
-    });
-    
-    describe("filters", function() {
-
-      var el, store, binding;
-      beforeEach(function() {
-        el = domify('<span>{{ name }| hello }</span>');
-        store = new Store({
-          name: 'bredele'
-        });
-        binding = new Binding(store);
-      });
-
-      it('should filter variable', function(done) {
-        binding.subs.filter('hello', function(str) {
-          if(str === 'bredele') done();
-        });
-        binding.scan(el);
-      });
-
-      it("should apply filter", function() {
-        binding.subs.filter('hello', function(str) {
-          return str.toUpperCase();
-        });
-        binding.scan(el);
-        assert.equal(el.innerHTML, 'BREDELE');
-      });
-
-      it('should chain filters', function() {
-        el = domify('<span>{{ name }| hello | world }</span>');
-
-        binding.subs.filter('hello', function(str) {
-          return str.toUpperCase();
-        });
-        binding.subs.filter('world', function(str) {
-          return 'hello ' + str + '!';
-        });
-        binding.scan(el);
-        assert.equal(el.innerHTML, 'hello BREDELE!');
-      });
-
-      it('should update expression if store changes', function() {
-        binding.subs.filter('hello', function(str) {
-          return str.toUpperCase();
-        });
-        binding.scan(el);
-        store.set('name', 'brick');
-        assert.equal(el.innerHTML, 'BRICK');
-      });
-
-      it('should pass arguments to filters');
-      
-    });
-    
-  });
-
-  describe("Query", function() {
-
-    it('should only query select the plugins (no interpolation)', function() {
-      var el = domify('<span data-query1="hello world">{{label}}</span>');
-      var query1 = false;
-
-      Binding()
-      .add('data-query1', function(el, str) {
-        query1 = true;
-      })
-      .scan(el, true);
-
-      assert.equal(query1, true);
-      assert.equal(el.innerHTML, '{{label}}');
-    });
-  });
-
-  describe("remove", function() {
-
-    it("should unsubscribe to store");
-    
-    // it("should unsubscribe to store", function() {
-    //   var el = domify('<span>{{label}}</span>'),
-    //   store = new Store({
-    //     label: 'maple'
-    //   }),
-    //   changed = false;
-
-    //   store.on('change github', function() {
-    //     changed = true;
-    //   });
-
-    //   Binding(store)
-    //   .scan(el)
-    //   .remove();
-
-    //   store.set('label', 'bredele');
-    //   assert.equal(el.innerHTML, 'maple');
-
-    //   store.set('github', 'http://github.com/leafs');
-    //   assert.equal(changed, true);
-    // });
-
-  });
-
-});

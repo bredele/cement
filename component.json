@@ -1,17 +1,12 @@
 {
   "name": "cement",
-  "repo": "bredele/cement",
-  "description": "Data attribute binding and interpolation",
-  "version": "0.3.2",
-  "keywords": [],
+  "description": "DOM attribute and text binding",
+  "version": "0.4.0",
   "dependencies": {
-    "bredele/supplant": "*",
-    "bredele/datastore": "*",
-    "component/indexof": "*"
+    "bredele/domwalk": "0.2.0"
   },
   "development": {
-    "component/assert": "*",
-    "component/domify": "1.0.0"
+    "component/assert": "*"
   },
   "license": "MIT",
   "main": "index.js",
