@@ -9,38 +9,6 @@ var Cement = require('..');
 
 describe("cement binding", function() {
 
-  describe("attribute nodes", function() {
-
-    var node, cement;
-    beforeEach(function() {
-      cement = new Cement();
-      node = domify('<section class="section" data-custom="something">');
-    });
-    
-    it("should bind existing attribute", function(done) {
-      cement.attr('class', function(el, value) {
-        if(value === 'section') done();
-      });
-      cement.scan(node);
-    });
-
-    it("should pass the target node", function(done) {
-      cement.attr('class', function(el, value) {
-        if(el === node) done();
-      });
-      cement.scan(node);
-    });
-    
-    
-    it("should bind custom attribute", function(done) {
-      cement.attr('data-custom', function(el, value) {
-        if(value === 'something') done();
-      });
-      cement.scan(node);
-    });
-
-  });
-
   describe("text nodes", function() {
 
     var cement;
@@ -50,22 +18,54 @@ describe("cement binding", function() {
 
     it("should bind text node", function(done) {
       var node = domify('<section>hello</section>');
-      cement.text(function(str) {
+      cement.render(node, function(str) {
         if(str === 'hello') done();
       });
-      cement.scan(node);
     });
     
-    it("should bind attributes content", function() {
+    it("should bind attributes content", function(done) {
       var node = domify('<section class="hello">');
-      cement.text(function(str) {
+      cement.render(node, function(str) {
         if(str === 'hello') done();
       });
-      cement.scan(node);
     });
-    
     
   });
+
+
+  describe("attribute nodes", function() {
+
+    var node, cement, text;
+    beforeEach(function() {
+      cement = new Cement();
+      node = domify('<section class="section" data-custom="something">');
+      text = function() {};
+    });
+    
+    it("should bind existing attribute", function(done) {
+      cement.attr('class', function(el, value) {
+        if(value === 'section') done();
+      });
+      cement.render(node, text);
+    });
+
+    it("should pass the target node", function(done) {
+      cement.attr('class', function(el, value) {
+        if(el === node) done();
+      });
+      cement.render(node, text);
+    });
+    
+    
+    it("should bind custom attribute", function(done) {
+      cement.attr('data-custom', function(el, value) {
+        if(value === 'something') done();
+      });
+      cement.render(node, text);
+    });
+
+  });
+
   
   
 });

@@ -43,7 +43,7 @@ Cement.prototype.attr = function(name, binding) {
  * @return {this} 
  */
 
-Cement.prototype.scan = function(root) {
+Cement.prototype.render = function(root, text) {
   var bindings = this.bindings;
   walk(root, function(node) {
     var type = node.nodeType;
@@ -53,7 +53,10 @@ Cement.prototype.scan = function(root) {
         var attr = attrs[i];
         var plugin = bindings[attr.nodeName];
         if(plugin) plugin(node, attr.nodeValue);
+        else text(attr.nodeValue);
       }
+    } else {
+      text(node.nodeValue);
     }
   });
 };
