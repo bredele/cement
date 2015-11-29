@@ -4,24 +4,20 @@
  */
 
 var walk = require('domwalk');
+var stomach = require('stomach');
 
 
 /**
  * Expose 'Cement'
  */
 
-module.exports = function() {
-  return new Cement();
+module.exports = function(tmpl) {
+  return new Cement(tmpl);
 };
 
 
-/**
- * Cement constructor.
- * @api public
- */
-
-function Cement() {
-
+function Cement(tmpl) {
+  this.el = stomach(tmpl);
 }
 
 

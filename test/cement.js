@@ -7,13 +7,18 @@ var assert = require('assert');
 var cement = require('..');
 
 
-describe('API', function() {
 
+describe('render', function() {
 
-  it("should have the following API", function() {
-    var ui = cement();
-    assert(ui.attr);
-    assert(ui.render);
+  var ui;
+  beforeEach(function() {
+    ui = cement();
   });
+
+  it("should render string into dom", function() {
+    var ui = cement('<button>hello</button>');
+    assert.equal(ui.el.outerHTML, '<button>hello</button>');
+  });
+
 
 });
