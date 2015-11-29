@@ -22,9 +22,14 @@ function Cement(tmpl) {
 
 
 
-Cement.prototype.attr = function() {
-
+Cement.prototype.attr = function(name, plugin) {
+  if(this.el.hasAttribute(name)) plugin(this.el);
+  var nodes = this.el.querySelectorAll('[' + name + ']');
+  for(var i = 0, l =  nodes.length; i < l; i++) {
+    plugin(nodes[i]);
+  }
 };
+
 
 
 Cement.prototype.render = function() {
