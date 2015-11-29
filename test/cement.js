@@ -23,5 +23,11 @@ describe('render', function() {
     assert.equal(ui.el, btn);
   });
 
+  it('should render from query selection', function() {
+    var ui = cement('body');
+
+    assert.equal(ui.el, document.body);
+  });
+
 
 });
