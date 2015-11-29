@@ -10,14 +10,17 @@ var cement = require('..');
 
 describe('render', function() {
 
-  var ui;
-  beforeEach(function() {
-    ui = cement();
-  });
 
   it("should render string into dom", function() {
     var ui = cement('<button>hello</button>');
     assert.equal(ui.el.outerHTML, '<button>hello</button>');
+  });
+
+  it("should render from existing dom", function() {
+    var btn = document.createElement('button');
+    var ui = cement(btn);
+    
+    assert.equal(ui.el, btn);
   });
 
 
