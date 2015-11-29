@@ -67,5 +67,14 @@ describe('attribute plugin', function() {
   assert.equal(result, 'hello world');
  });
 
+ // it('should select specific attribute and apply plugin', function() {
+ //    var result = "";
+ //    var ui = cement('<ul><li class="item"><input required="hello "></li><li class="item"><input required="world"></li></ul>');
+ //    ui.attr('.item', 'required', function(node) {
+ //      result += node.getAttribute('required');
+ //    });
+ //    assert.equal(result, 'hello world');
+ // });
+
 
 });

@@ -25,17 +25,14 @@ function Cement(tmpl) {
 
 
 Cement.prototype.attr = many(function(name, plugin) {
-  console.log(name);
   if(this.el.hasAttribute(name)) plugin.call(this, this.el);
-  var nodes = this.el.querySelectorAll('[' + name + ']');
-  console.log(nodes);
-  for(var i = 0, l =  nodes.length; i < l; i++) {
-   plugin.call(this, nodes[i]);
-  }
+  this.query('[' + name + ']', plugin);
 });
 
 
-
-Cement.prototype.render = function() {
-
+Cement.prototype.query = function(selector, plugin) {
+  var nodes = this.el.querySelectorAll(selector);
+  for(var i = 0, l =  nodes.length; i < l; i++) {
+   plugin.call(this, nodes[i]);
+  }
 };
