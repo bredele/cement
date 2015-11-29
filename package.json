@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "domwalk": "0.2.0",
+    "many": "^1.0.2",
     "stomach": "^0.1.1"
   },
   "devDependencies": {

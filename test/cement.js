@@ -46,4 +46,26 @@ describe('attribute plugin', function() {
  });
 
 
+ it('should set scope of plugin', function(done) {
+   var ui = cement('<input required>');
+   ui.attr('required', function(node) {
+     if(this === ui) done();
+   });
+ });
+
+ it('should set multiple attribute plugins', function() {
+   var result = '';
+   var ui = cement('<ul><li class="first">hello </li><li id="last">world</li></ul>');
+   ui.attr({
+     'class' : function(node) {
+       result += node.innerHTML;
+     },
+     id: function(node) {
+       result += node.innerHTML;
+     }
+   });
+  assert.equal(result, 'hello world');
+ });
+
+
 });
