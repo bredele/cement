@@ -22,8 +22,6 @@ function Cement(tmpl) {
   this.el = stomach(tmpl);
 }
 
-
-
 Cement.prototype.attr = many(function(name, plugin) {
   // @note refactor using .use ( .use(plugin, node, attr))
   if(this.el.hasAttribute(name)) plugin.call(this, this.el, this.el.getAttribute(name));
@@ -50,11 +48,10 @@ Cement.prototype.render = function(text) {
     if(node.nodeType === 1) {
       var attrs = node.attributes;
       for(var i = 0, l = attrs.length; i < l; i++) {
-        var attr = attrs[i];
-        text(attr.nodeValue,  attr);
+        text(attrs[i]);
       }
     } else {
-      text(node.nodeValue, node);
+      text(node);
     }
   });
 };
