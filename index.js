@@ -23,35 +23,31 @@ function Cement(tmpl) {
 }
 
 Cement.prototype.attr = many(function(name, plugin) {
-  // @note refactor using .use ( .use(plugin, node, attr))
-  if(this.el.hasAttribute(name)) plugin.call(this, this.el, this.el.getAttribute(name));
-  this.query('[' + name + ']', function(node) {
-    plugin.call(this, node, node.getAttribute(name));
+  var that = this
+  // @note refactor usinthatg .use ( .use(plugin, node, attr)) 
+  if(that.el.hasAttribute(name)) plugin.call(that, that.el, that.el.getAttribute(name));
+  that.query('[' + name + ']', function(node) {
+    plugin.call(that, node, node.getAttribute(name));
   });
-  return this;
+  return that;
 });
 
 
 Cement.prototype.query = function(selector, plugin) {
-  var nodes = this.el.querySelectorAll(selector);
-  // should we use looping?
-  for(var i = 0, l =  nodes.length; i < l; i++) {
-   plugin.call(this, nodes[i]);
-  }
+  loop(this.el.querySelectorAll(selector), plugin);
   return this;
 };
-
 
 // template agnostic :DD
 Cement.prototype.render = function(text) {
   walk(this.el, function(node) {
-    if(node.nodeType === 1) {
-      var attrs = node.attributes;
-      for(var i = 0, l = attrs.length; i < l; i++) {
-        text(attrs[i]);
-      }
-    } else {
-      text(node);
-    }
+    if(node.nodeType === 1) loop(node.attributes, text);
+    else text(node);
   });
 };
+
+function loop(nodes, plugin) {
+  for(var i = 0, l =  nodes.length; i < l; i++) {
+   plugin(nodes[i]);
+  }
+}

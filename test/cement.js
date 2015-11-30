@@ -48,6 +48,7 @@ describe('attribute plugin', function() {
  it('should set scope of plugin', function(done) {
    var ui = cement('<input required>');
    ui.attr('required', function(node) {
+    console.log(this);
      if(this === ui) done();
    });
  });
