@@ -37,12 +37,11 @@ describe('render', function() {
 
 describe('attribute plugin', function() {
 
- it("should call plugin on selected dom element", function() {
-   var ui = cement('<input required>');
-   ui.attr('required', function(node) {
-     node.setAttribute('placeholder', 'this element is required');
+ it("should call plugin on selected dom element", function(done) {
+   var ui = cement('<input placeholder="this element is required">');
+   ui.attr('placeholder', function(node, text) {
+     if(text === 'this element is required') done();
    });
-   assert.equal(ui.el.getAttribute('placeholder'), 'this element is required');
  });
 
 
@@ -55,13 +54,13 @@ describe('attribute plugin', function() {
 
  it('should set multiple attribute plugins', function() {
    var result = '';
-   var ui = cement('<ul><li class="first">hello </li><li id="last">world</li></ul>');
+   var ui = cement('<ul><li class="hello "></li><li id="world"></li></ul>');
    ui.attr({
-     'class' : function(node) {
-       result += node.innerHTML;
+     'class' : function(node, text) {
+       result += text;
      },
-     id: function(node) {
-       result += node.innerHTML;
+     id: function(node, text) {
+       result += text;
      }
    });
   assert.equal(result, 'hello world');
@@ -77,4 +76,15 @@ describe('attribute plugin', function() {
  // });
 
 
+});
+
+
+describe('render', function() {
+  it('should render node inner html', function() {
+    var ui = cement('<button>world</button>');
+    ui.render(function(text, node) {
+      node.nodeValue = 'hello ' + text;
+    });
+    assert.equal(ui.el.innerHTML, 'hello world');
+  });
 });
