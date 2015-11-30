@@ -50,7 +50,8 @@ Cement.prototype.render = function(text) {
     if(node.nodeType === 1) {
       var attrs = node.attributes;
       for(var i = 0, l = attrs.length; i < l; i++) {
-        text(attr.nodeValue,  attrs[i]);
+        var attr = attrs[i];
+        text(attr.nodeValue,  attr);
       }
     } else {
       text(node.nodeValue, node);

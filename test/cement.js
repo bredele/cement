@@ -80,11 +80,20 @@ describe('attribute plugin', function() {
 
 
 describe('render', function() {
-  it('should render node inner html', function() {
+
+  it('should render node type 2 value', function() {
     var ui = cement('<button>world</button>');
     ui.render(function(text, node) {
       node.nodeValue = 'hello ' + text;
     });
     assert.equal(ui.el.innerHTML, 'hello world');
+  });
+
+  it('should render node type 1 value', function() {
+    var ui = cement('<button class="world"></button>');
+    ui.render(function(text, node) {
+      node.nodeValue = 'hello ' + text;
+    });
+    assert.equal(ui.el.className, 'hello world');
   });
 });
