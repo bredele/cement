@@ -39,7 +39,7 @@ Cement.prototype.query = function(selector, plugin) {
 };
 
 // template agnostic :DD
-Cement.prototype.render = function(text) {
+Cement.prototype.node = function(text, selector) {
   walk(this.el, function(node) {
     if(node.nodeType === 1) loop(node.attributes, text);
     else text(node);
