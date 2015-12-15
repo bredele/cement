@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var stomach = require('stomach');
+var dom = require('stomach');
 var walk = require('domwalk');
 var many = require('many');
 
@@ -30,8 +30,25 @@ module.exports = Cement;
  */
 
 function Cement(tmpl) {
-  this.el = stomach(tmpl);
+
 }
+
+/**
+ * Create brick dom element from
+ * string or existing dom element.
+ * 
+ * @param  {String | Element}  tmpl
+ * @param {Boolean?} bool clone node
+ * @return {this}
+ * @api public
+ */
+
+Cement.prototype.from = function(tmpl, bool) {
+  this.el = (typeof tmpl === 'function')
+    ? tmpl(this)
+    : dom(tmpl, bool);
+  return this;
+};
 
 
 /**

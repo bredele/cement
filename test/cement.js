@@ -7,30 +7,39 @@ var assert = require('assert');
 var Cement = require('..');
 
 
+describe("#from", function() {
 
-describe('render', function() {
-
+  var obj;
+  beforeEach(function() {
+    obj = new Cement();
+  });
 
   it("should render string into dom", function() {
-    var ui = new Cement('<button>hello</button>');
-    assert.equal(ui.el.outerHTML, '<button>hello</button>');
+    obj.from('<button>hello</button>');
+    assert.equal(obj.el.innerHTML, 'hello');
+    assert.equal(obj.el.nodeName, 'BUTTON');
   });
 
   it("should render from existing dom", function() {
-    var btn = document.createElement('button');
-    var ui = new Cement(btn);
-    assert.equal(ui.el, btn);
+    var div = document.createElement('ul');
+    obj.from(div);
+    
+    assert.equal(obj.el.nodeName, 'UL');
   });
 
   it('should render from query selection', function() {
-    var ui = new Cement('body');
-    assert.equal(ui.el, document.body);
+    document.body.insertAdjacentHTML('beforeend', '<section class="brick-test">');
+    obj.from('.brick-test');
+
+    assert.equal(obj.el.nodeName, 'SECTION');
+    assert.equal(obj.el.getAttribute('class'), 'brick-test');
   });
 
-  // it('should render from other template engine', function(done) {
-
-  // });
-
+  it('should render from other template engine', function(done) {
+    obj.from(function(data) {
+      if(data === obj) done();
+    });
+  });
 
 });
 
@@ -38,7 +47,8 @@ describe('render', function() {
 describe('attribute plugin', function() {
 
  it("should call plugin on selected dom element", function(done) {
-   var ui = new Cement('<input placeholder="this element is required">');
+   var ui = new Cement();
+   ui.from('<input placeholder="this element is required">');
    ui.attr('placeholder', function(node, text) {
      if(text === 'this element is required') done();
    });
@@ -46,7 +56,8 @@ describe('attribute plugin', function() {
 
 
  it('should set scope of plugin', function(done) {
-   var ui = new Cement('<input required>');
+   var ui = new Cement();
+   ui.from('<input required>');
    ui.attr('required', function(node) {
     console.log(this);
      if(this === ui) done();
@@ -55,7 +66,8 @@ describe('attribute plugin', function() {
 
  it('should set multiple attribute plugins', function() {
    var result = '';
-   var ui = new Cement('<ul><li class="hello "></li><li id="world"></li></ul>');
+   var ui = new Cement();
+   ui.from('<ul><li class="hello "></li><li id="world"></li></ul>');
    ui.attr({
      'class' : function(node, text) {
        result += text;
@@ -83,7 +95,9 @@ describe('attribute plugin', function() {
 describe('render', function() {
 
   it('should render node type 2 value', function() {
-    var ui = new Cement('<button>world</button>');
+    var ui = new Cement();
+    ui.from('<button>world</button>');
+
     ui.node(function(node) {
       node.nodeValue = 'hello ' + node.nodeValue;
     });
@@ -91,7 +105,8 @@ describe('render', function() {
   });
 
   it('should render node type 1 value', function() {
-    var ui = new Cement('<button class="world"></button>');
+    var ui = new Cement();
+    ui.from('<button class="world"></button>');
     ui.node(function(node) {
       node.nodeValue = 'hello ' + node.nodeValue;
     });
