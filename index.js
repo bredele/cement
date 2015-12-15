@@ -19,19 +19,29 @@ module.exports = Cement;
 /**
  * Cement constructor.
  *
- * Examples:
- *
- *  var ui = new Cement('<button>hello</button>');
- *  var ui = new Cement(document.body);
- *  var ui = new Cement('body');
- * 
- * @param {String|Element} tmpl
  * @api public
  */
 
-function Cement(tmpl) {
-
+function Cement(obj) {
+  if (obj) return mixin(obj);
 }
+
+
+/**
+ * Mixin the emitter properties.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
+
+function mixin(obj) {
+  for (var key in Cement.prototype) {
+    obj[key] = Cement.prototype[key];
+  }
+  return obj;
+}
+
 
 /**
  * Create brick dom element from
