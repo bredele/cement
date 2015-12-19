@@ -98,7 +98,7 @@ describe('render', function() {
     var ui = new Cement();
     ui.from('<button>world</button>');
 
-    ui.node(function(node) {
+    ui.walk(function(node) {
       node.nodeValue = 'hello ' + node.nodeValue;
     });
     assert.equal(ui.el.innerHTML, 'hello world');
@@ -107,7 +107,7 @@ describe('render', function() {
   it('should render node type 1 value', function() {
     var ui = new Cement();
     ui.from('<button class="world"></button>');
-    ui.node(function(node) {
+    ui.walk(function(node) {
       node.nodeValue = 'hello ' + node.nodeValue;
     });
     assert.equal(ui.el.className, 'hello world');

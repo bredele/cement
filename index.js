@@ -122,7 +122,7 @@ Cement.prototype.query = function(selector, cb) {
  * Examples:
  *
  *  var ui = new Cement('<input required>');
- *  ui.node(unction() {
+ *  ui.walk(unction() {
  *    // do something
  *  })
  * 
@@ -130,7 +130,7 @@ Cement.prototype.query = function(selector, cb) {
  * @api public
  */
 
-Cement.prototype.node = function(text) {
+Cement.prototype.walk = function(text) {
   walk(this.el, function(node) {
     if(node.nodeType === 1) loop(node.attributes, text);
     else text(node);
