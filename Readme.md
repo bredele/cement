@@ -1,10 +1,8 @@
 # Cement
-[![Build Status](https://travis-ci.org/bredele/binding.png?branch=master)](https://travis-ci.org/bredele/binding)
+[![Build Status](https://travis-ci.org/bredele/binding.png?branch=master)](https://travis-ci.org/bredele/cement)
 
 
-  Mixed cement with HTML and JavaScript to obtain a flexible and insanely fast biding.
-
-<!--   Cement has been built for [brick](http://github.com/bredele/brickjs) but is framework agnostic. -->
+  Cement is a template agnostic data binding built for [brick](http://github.com/bredele/brickjs).
 
 
 ## License
